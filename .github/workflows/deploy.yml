@@ -3,7 +3,7 @@ name: Build and deploy to gh-pages
 on:
   push:
     branches:
-      - main    # change if your default branch is 'master' or another name
+      - main
   workflow_dispatch:
 
 jobs:
@@ -22,12 +22,12 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run dev
-        # If your build command is different, replace the above line (e.g., `npm run build:web`)
+        run: npm run build
+        # If your package.json uses a different build script, replace the line above.
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./dev   # <-- replace './build' with your build output folder (e.g., './dist' or './out')
+          publish_dir: ./dist
