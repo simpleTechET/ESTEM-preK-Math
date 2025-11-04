@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +20,15 @@ const MatchingActivity1 = () => {
     { id: 5, image: orangeImg, matchId: 3 },
     { id: 6, image: orangeImg, matchId: 3 },
   ];
+
+  const shuffledGameItems = useMemo(() => {
+    const arr = [...gameItems];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }, []);
 
   const handleComplete = () => {
     navigate("/activities");
@@ -159,7 +168,7 @@ const MatchingActivity1 = () => {
             </Card>
 
             {/* Game */}
-            <MatchingGame items={gameItems} onComplete={handleComplete} />
+            <MatchingGame items={shuffledGameItems} onComplete={handleComplete} />
           </>
         )}
       </div>
