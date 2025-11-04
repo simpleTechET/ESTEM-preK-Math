@@ -19,11 +19,11 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm ci
+        # use npm install rather than npm ci in case package-lock.json is not present
+        run: npm install
 
       - name: Build
         run: npm run build
-        # If your package.json uses a different build script, replace the line above.
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
