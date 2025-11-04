@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Users, BookOpen, Target } from "lucide-react";
+import { Users, BookOpen, Target } from "lucide-react";
+import estemLogo from "@/assets/estem-logo.png";
 
 const Home = () => {
   return (
@@ -10,9 +11,7 @@ const Home = () => {
       <header className="border-b border-border/50 bg-card/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-success flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-primary-foreground" />
-            </div>
+            <img src={estemLogo} alt="ESTEM Logo - Knowledge Tap" className="w-12 h-12" />
             <div>
               <h1 className="text-2xl font-bold text-foreground">ESTEM Math</h1>
               <p className="text-sm text-muted-foreground">Ethiopian STEM Academy</p>
