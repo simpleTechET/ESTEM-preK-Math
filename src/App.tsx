@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Activities from "./pages/Activities";
 import ParentGuide from "./pages/ParentGuide";
 import MatchingActivity1 from "./pages/MatchingActivity1";
+import MatchingActivity2 from "./pages/MatchingActivity2";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/activities" element={<Activities />} />
           <Route path="/parent-guide" element={<ParentGuide />} />
           <Route path="/activity/matching-1" element={<MatchingActivity1 />} />
+          <Route path="/activity/matching-2" element={<MatchingActivity2 />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -127,9 +127,9 @@ const matchingLessons = [
   },
   {
     id: 2,
-    title: "Same Color",
-    description: "Match objects with the same color",
-    icon: "🎨",
+    title: "Same, But Different",
+    description: "Match objects that are similar but not identical",
+    icon: "📏",
     duration: "10 min",
     path: "/activity/matching-2",
     unlocked: true

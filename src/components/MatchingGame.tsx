@@ -8,7 +8,7 @@ interface MatchingGameProps {
   items: {
     id: number;
     image: string;
-    matchId: number;
+    matchId: number | string;
   }[];
   onComplete?: () => void;
 }
