@@ -127,8 +127,8 @@ const matchingLessons = [
   },
   {
     id: 2,
-    title: "Same, But Different",
-    description: "Match objects that are similar but not identical",
+    title: "Same, But Different Size",
+    description: "Match objects that are similar but different sizes",
     icon: "📏",
     duration: "10 min",
     path: "/activity/matching-2",
@@ -136,8 +136,8 @@ const matchingLessons = [
   },
   {
     id: 3,
-    title: "Same, But Different",
-    description: "Match fruits that are the same type",
+    title: "Match Fruits",
+    description: "Match fruits that are the same type but different sizes",
     icon: "🍎",
     duration: "10 min",
     path: "/activity/matching-3",
@@ -150,7 +150,7 @@ const matchingLessons = [
     icon: "🧩",
     duration: "10 min",
     path: "/activity/matching-4",
-    unlocked: true
+    unlocked: false  // Will implement next
   }
 ];
 
