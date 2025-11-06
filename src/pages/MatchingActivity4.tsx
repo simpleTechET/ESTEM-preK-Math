@@ -2,6 +2,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Star, BookOpen, Users, Lightbulb, CheckCircle2 } from "lucide-react";
+import cupImg from "@/assets/cup.png";
+import strawImg from "@/assets/straw.png";
+import paperImg from "@/assets/paper.png";
+import pencilImg from "@/assets/pencil.png";
+import toothbrushImg from "@/assets/toothbrush.png";
+import toothpasteImg from "@/assets/toothpaste.png";
+import sockImg from "@/assets/sock.png";
+import shoeImg from "@/assets/shoe.png";
 
 const MatchingActivity4 = () => {
   const [showGame, setShowGame] = useState(false);
@@ -12,14 +20,14 @@ const MatchingActivity4 = () => {
 
   // Objects that are used together
   const items = [
-    { id: 1, name: "Cup", emoji: "🥤", matchId: "drink", pair: "Straw" },
-    { id: 2, name: "Straw", emoji: "🥢", matchId: "drink", pair: "Cup" },
-    { id: 3, name: "Paper", emoji: "📄", matchId: "write", pair: "Crayon" },
-    { id: 4, name: "Crayon", emoji: "🖍️", matchId: "write", pair: "Paper" },
-    { id: 5, name: "Toothbrush", emoji: "🪥", matchId: "brush", pair: "Toothpaste" },
-    { id: 6, name: "Toothpaste", emoji: "🧴", matchId: "brush", pair: "Toothbrush" },
-    { id: 7, name: "Spoon", emoji: "🥄", matchId: "eat", pair: "Bowl" },
-    { id: 8, name: "Bowl", emoji: "🥣", matchId: "eat", pair: "Spoon" },
+    { id: 1, name: "Cup", img: cupImg, matchId: "drink", pair: "Straw" },
+    { id: 2, name: "Straw", img: strawImg, matchId: "drink", pair: "Cup" },
+    { id: 3, name: "Paper", img: paperImg, matchId: "write", pair: "Pencil" },
+    { id: 4, name: "Pencil", img: pencilImg, matchId: "write", pair: "Paper" },
+    { id: 5, name: "Toothbrush", img: toothbrushImg, matchId: "brush", pair: "Toothpaste" },
+    { id: 6, name: "Toothpaste", img: toothpasteImg, matchId: "brush", pair: "Toothbrush" },
+    { id: 7, name: "Sock", img: sockImg, matchId: "wear", pair: "Shoe" },
+    { id: 8, name: "Shoe", img: shoeImg, matchId: "wear", pair: "Sock" },
   ];
 
   // Body parts that come in pairs
@@ -57,7 +65,7 @@ const MatchingActivity4 = () => {
       case "drink": return "drink something";
       case "write": return "draw or write";
       case "brush": return "brush teeth";
-      case "eat": return "eat food";
+      case "wear": return "wear on our feet";
       default: return "use together";
     }
   };
@@ -167,22 +175,22 @@ const MatchingActivity4 = () => {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="bg-green-50 p-4 rounded-lg border-2 border-green-200">
                         <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                          <span className="text-2xl">🥤</span> Example 1
+                          <img src={cupImg} alt="Cup" className="w-8 h-8 object-contain" /> Example 1
                         </h4>
                         <p className="text-sm text-gray-600">
                           <strong>Cup and Straw</strong><br/>
                           They don't look the same!<br/>
-                          But: I use them together to <strong>drink</strong>! 🥤
+                          But: I use them together to <strong>drink</strong>!
                         </p>
                       </div>
                       <div className="bg-orange-50 p-4 rounded-lg border-2 border-orange-200">
                         <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                          <span className="text-2xl">🖍️</span> Example 2
+                          <img src={pencilImg} alt="Pencil" className="w-8 h-8 object-contain" /> Example 2
                         </h4>
                         <p className="text-sm text-gray-600">
-                          <strong>Crayon and Paper</strong><br/>
+                          <strong>Pencil and Paper</strong><br/>
                           They don't look the same!<br/>
-                          But: I use them together to <strong>draw</strong>! 🎨
+                          But: I use them together to <strong>write</strong>!
                         </p>
                       </div>
                     </div>
@@ -280,8 +288,8 @@ const MatchingActivity4 = () => {
                     `}
                   >
                     <div className="aspect-square flex flex-col items-center justify-center p-4">
-                      <div className="text-6xl mb-2">
-                        {item.emoji}
+                      <div className="w-24 h-24 flex items-center justify-center mb-2">
+                        <img src={item.img} alt={item.name} className="max-w-full max-h-full object-contain" />
                       </div>
                       <p className="text-sm text-center text-gray-700 font-medium">
                         {item.name}
@@ -309,27 +317,43 @@ const MatchingActivity4 = () => {
                     <h4 className="font-bold text-gray-800 text-xl">Your Matches:</h4>
                     <div className="grid md:grid-cols-2 gap-3">
                       <div className="bg-white p-4 rounded-lg border-2 border-green-300">
-                        <p className="text-2xl mb-2">🥤 + 🥢</p>
+                        <div className="flex gap-2 justify-center mb-2">
+                          <img src={cupImg} alt="Cup" className="w-12 h-12 object-contain" />
+                          <span className="text-2xl">+</span>
+                          <img src={strawImg} alt="Straw" className="w-12 h-12 object-contain" />
+                        </div>
                         <p className="text-sm text-gray-700">
                           <strong>Cup and Straw</strong> match because we use them together to <strong>drink</strong>!
                         </p>
                       </div>
                       <div className="bg-white p-4 rounded-lg border-2 border-green-300">
-                        <p className="text-2xl mb-2">📄 + 🖍️</p>
+                        <div className="flex gap-2 justify-center mb-2">
+                          <img src={paperImg} alt="Paper" className="w-12 h-12 object-contain" />
+                          <span className="text-2xl">+</span>
+                          <img src={pencilImg} alt="Pencil" className="w-12 h-12 object-contain" />
+                        </div>
                         <p className="text-sm text-gray-700">
-                          <strong>Paper and Crayon</strong> match because we use them together to <strong>draw</strong>!
+                          <strong>Paper and Pencil</strong> match because we use them together to <strong>write</strong>!
                         </p>
                       </div>
                       <div className="bg-white p-4 rounded-lg border-2 border-green-300">
-                        <p className="text-2xl mb-2">🪥 + 🧴</p>
+                        <div className="flex gap-2 justify-center mb-2">
+                          <img src={toothbrushImg} alt="Toothbrush" className="w-12 h-12 object-contain" />
+                          <span className="text-2xl">+</span>
+                          <img src={toothpasteImg} alt="Toothpaste" className="w-12 h-12 object-contain" />
+                        </div>
                         <p className="text-sm text-gray-700">
                           <strong>Toothbrush and Toothpaste</strong> match because we use them together to <strong>brush teeth</strong>!
                         </p>
                       </div>
                       <div className="bg-white p-4 rounded-lg border-2 border-green-300">
-                        <p className="text-2xl mb-2">🥄 + 🥣</p>
+                        <div className="flex gap-2 justify-center mb-2">
+                          <img src={sockImg} alt="Sock" className="w-12 h-12 object-contain" />
+                          <span className="text-2xl">+</span>
+                          <img src={shoeImg} alt="Shoe" className="w-12 h-12 object-contain" />
+                        </div>
                         <p className="text-sm text-gray-700">
-                          <strong>Spoon and Bowl</strong> match because we use them together to <strong>eat</strong>!
+                          <strong>Sock and Shoe</strong> match because we use them together to <strong>wear on our feet</strong>!
                         </p>
                       </div>
                     </div>
