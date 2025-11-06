@@ -76,24 +76,47 @@ const Activities = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {sortingLessons.map((lesson) => (
-              <Card key={lesson.id} className="opacity-60 cursor-not-allowed">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold text-muted-foreground bg-muted px-3 py-1 rounded-full">
-                      Lesson {lesson.id}
-                    </span>
-                    <Lock className="w-5 h-5 text-muted-foreground" />
-                  </div>
-                  <CardTitle className="text-lg text-muted-foreground">{lesson.title}</CardTitle>
-                  <CardDescription className="text-sm">{lesson.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2">
-                    <span className="text-3xl">{lesson.icon}</span>
-                    <span className="text-sm text-muted-foreground">{lesson.duration}</span>
-                  </div>
-                </CardContent>
-              </Card>
+              lesson.path ? (
+                <Link to={lesson.path} key={lesson.id}>
+                  <Card className="h-full hover:shadow-playful transition-all duration-300 hover:scale-105 cursor-pointer border-2 hover:border-primary">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                          Lesson {lesson.id}
+                        </span>
+                        <Play className="w-5 h-5 text-success" />
+                      </div>
+                      <CardTitle className="text-lg">{lesson.title}</CardTitle>
+                      <CardDescription className="text-sm">{lesson.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center gap-2">
+                        <span className="text-3xl">{lesson.icon}</span>
+                        <span className="text-sm text-muted-foreground">{lesson.duration}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ) : (
+                <Card key={lesson.id} className="opacity-60 cursor-not-allowed">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold text-muted-foreground bg-muted px-3 py-1 rounded-full">
+                        Lesson {lesson.id}
+                      </span>
+                      <Lock className="w-5 h-5 text-muted-foreground" />
+                    </div>
+                    <CardTitle className="text-lg text-muted-foreground">{lesson.title}</CardTitle>
+                    <CardDescription className="text-sm">{lesson.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl">{lesson.icon}</span>
+                      <span className="text-sm text-muted-foreground">{lesson.duration}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
             ))}
           </div>
         </section>
@@ -160,7 +183,9 @@ const sortingLessons = [
     title: "Make One Group",
     description: "Create groups with a given attribute",
     icon: "📦",
-    duration: "12 min"
+    duration: "12 min",
+    path: "/activity/sorting-5",
+    unlocked: true
   },
   {
     id: 6,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Star, BookOpen, Users, Lightbulb, CheckCircle2 } from "lucide-react";
@@ -18,17 +18,20 @@ const MatchingActivity4 = () => {
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [attempts, setAttempts] = useState(0);
 
-  // Objects that are used together
-  const items = [
-    { id: 1, name: "Cup", img: cupImg, matchId: "drink", pair: "Straw" },
-    { id: 2, name: "Straw", img: strawImg, matchId: "drink", pair: "Cup" },
-    { id: 3, name: "Paper", img: paperImg, matchId: "write", pair: "Pencil" },
-    { id: 4, name: "Pencil", img: pencilImg, matchId: "write", pair: "Paper" },
-    { id: 5, name: "Toothbrush", img: toothbrushImg, matchId: "brush", pair: "Toothpaste" },
-    { id: 6, name: "Toothpaste", img: toothpasteImg, matchId: "brush", pair: "Toothbrush" },
-    { id: 7, name: "Sock", img: sockImg, matchId: "wear", pair: "Shoe" },
-    { id: 8, name: "Shoe", img: shoeImg, matchId: "wear", pair: "Sock" },
-  ];
+  // Objects that are used together - shuffled to prevent adjacent matches
+  const shuffledItems = useMemo(() => {
+    const itemsArray = [
+      { id: 1, name: "Cup", img: cupImg, matchId: "drink", pair: "Straw" },
+      { id: 2, name: "Straw", img: strawImg, matchId: "drink", pair: "Cup" },
+      { id: 3, name: "Paper", img: paperImg, matchId: "write", pair: "Pencil" },
+      { id: 4, name: "Pencil", img: pencilImg, matchId: "write", pair: "Paper" },
+      { id: 5, name: "Toothbrush", img: toothbrushImg, matchId: "brush", pair: "Toothpaste" },
+      { id: 6, name: "Toothpaste", img: toothpasteImg, matchId: "brush", pair: "Toothbrush" },
+      { id: 7, name: "Sock", img: sockImg, matchId: "wear", pair: "Shoe" },
+      { id: 8, name: "Shoe", img: shoeImg, matchId: "wear", pair: "Sock" },
+    ];
+    return [...itemsArray].sort(() => Math.random() - 0.5);
+  }, []);
 
   // Body parts that come in pairs
   const bodyParts = [
@@ -58,7 +61,7 @@ const MatchingActivity4 = () => {
     }
   };
 
-  const allMatched = matchedPairs.length === items.length;
+  const allMatched = matchedPairs.length === shuffledItems.length;
 
   const getMatchDescription = (matchId) => {
     switch(matchId) {
@@ -273,7 +276,7 @@ const MatchingActivity4 = () => {
 
             {/* Game Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {items.map((item) => {
+              {shuffledItems.map((item) => {
                 const isMatched = matchedPairs.includes(item.id);
                 const isSelected = currentSelection?.id === item.id;
                 
