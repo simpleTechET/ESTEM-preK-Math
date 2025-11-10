@@ -1,39 +1,53 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Star, BookOpen, Users, Lightbulb } from "lucide-react";
-import MatchingGame from "@/components/MatchingGame";
-import appleSmall from "@/assets/apple-small.png";
-import appleLarge from "@/assets/apple-large.png";
-import bananaSmall from "@/assets/banana-small.png";
-import bananaLarge from "@/assets/banana-large.png";
-import orangeSmall from "@/assets/orange-small.png";
-import orangeLarge from "@/assets/orange-large.png";
 
 const MatchingActivity3 = () => {
   const [showGame, setShowGame] = useState(false);
-  const navigate = useNavigate();
+  const [selectedPairs, setSelectedPairs] = useState([]);
+  const [currentSelection, setCurrentSelection] = useState(null);
+  const [matchedPairs, setMatchedPairs] = useState([]);
+  const [attempts, setAttempts] = useState(0);
 
-  const matchingItems = [
-    { id: 1, image: appleSmall, matchId: "apple" },
-    { id: 2, image: appleLarge, matchId: "apple" },
-    { id: 3, image: bananaSmall, matchId: "banana" },
-    { id: 4, image: bananaLarge, matchId: "banana" },
-    { id: 5, image: orangeSmall, matchId: "orange" },
-    { id: 6, image: orangeLarge, matchId: "orange" },
+  // Placeholder images - in production, these would be actual image paths
+  const items = [
+    { id: 1, name: "Small Red Apple", type: "apple", size: "small", color: "red", emoji: "🍎" },
+    { id: 2, name: "Large Red Apple", type: "apple", size: "large", color: "red", emoji: "🍎" },
+    { id: 3, name: "Small Yellow Banana", type: "banana", size: "small", color: "yellow", emoji: "🍌" },
+    { id: 4, name: "Large Yellow Banana", type: "banana", size: "large", color: "yellow", emoji: "🍌" },
+    { id: 5, name: "Small Orange", type: "orange", size: "small", color: "orange", emoji: "🍊" },
+    { id: 6, name: "Large Orange", type: "orange", size: "large", color: "orange", emoji: "🍊" },
   ];
 
-  const handleComplete = () => {
-    navigate("/activities");
+  const handleItemClick = (item) => {
+    if (matchedPairs.includes(item.id)) return;
+
+    if (!currentSelection) {
+      setCurrentSelection(item);
+    } else {
+      setAttempts(attempts + 1);
+      
+      if (currentSelection.type === item.type && currentSelection.id !== item.id) {
+        // Match found!
+        setMatchedPairs([...matchedPairs, currentSelection.id, item.id]);
+        setSelectedPairs([...selectedPairs, { item1: currentSelection, item2: item }]);
+        setCurrentSelection(null);
+      } else {
+        // No match
+        setTimeout(() => setCurrentSelection(null), 1000);
+      }
+    }
   };
 
+  const allMatched = matchedPairs.length === items.length;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Button variant="outline" size="icon" onClick={() => navigate("/activities")}>
+          <Button variant="outline" size="icon" onClick={() => window.history.back()}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
@@ -41,7 +55,7 @@ const MatchingActivity3 = () => {
               <span className="text-sm font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full">
                 Lesson 3
               </span>
-              <h1 className="text-2xl font-bold text-gray-800">Match Fruits</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Match 2 Objects That Are the Same, But...</h1>
             </div>
             <p className="text-sm text-gray-600">Topic A: Matching Objects</p>
           </div>
@@ -59,8 +73,8 @@ const MatchingActivity3 = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-lg text-gray-700">
-                  Today, your child will learn to <span className="font-bold text-green-700">match objects that are the same but different sizes</span>. 
-                  They'll match fruits that are the same type, even when one is bigger or smaller!
+                  Today, your child will learn to match 2 objects that are <span className="font-bold text-green-700">the same, but different</span> in one way. 
+                  For example: two apples that are the same fruit, but one is bigger!
                 </p>
               </CardContent>
             </Card>
@@ -68,45 +82,39 @@ const MatchingActivity3 = () => {
             {/* Introduction */}
             <Card className="bg-white shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-800">Same, But Different!</CardTitle>
-                <CardDescription>Read this together with your child</CardDescription>
+                <CardTitle className="text-xl text-gray-800">Let's Learn Together!</CardTitle>
+                <CardDescription>Read this with your child before starting</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="bg-green-50 p-6 rounded-xl border-2 border-green-200">
+                <div className="bg-yellow-50 p-6 rounded-xl border-2 border-yellow-200">
                   <p className="text-lg text-gray-700 mb-4">
-                    In Lesson 2, we learned that things can be <strong>the same</strong> even if they're <strong>different sizes</strong>.
+                    Remember yesterday? We matched things that were <span className="font-bold">exactly the same</span>!
                   </p>
                   <p className="text-lg text-gray-700 mb-4">
-                    Today, we'll practice with <strong>fruits</strong>! We'll find apples, bananas, and oranges that match - even when one is small and one is big!
+                    Today is different! We'll match things that are similar but not exactly the same. We say:
                   </p>
+                  <div className="bg-white p-4 rounded-lg border-2 border-green-300">
+                    <p className="text-xl font-bold text-green-700 text-center">
+                      "They are the same, but..."
+                    </p>
+                  </div>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="bg-red-50 p-4 rounded-lg border-2 border-red-200">
-                    <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                      🍎 Apples
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      A small apple and a big apple are <strong>still both apples</strong>!<br/>
-                      They match because they're the same fruit.
-                    </p>
-                  </div>
-                  <div className="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-200">
-                    <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                      🍌 Bananas
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      A small banana and a big banana are <strong>still both bananas</strong>!<br/>
-                      They match because they're the same fruit.
-                    </p>
-                  </div>
+                <div className="grid md:grid-cols-2 gap-4">
                   <div className="bg-orange-50 p-4 rounded-lg border-2 border-orange-200">
-                    <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                      🍊 Oranges
-                    </h4>
+                    <h4 className="font-bold text-gray-800 mb-2">✓ Example: Same</h4>
                     <p className="text-sm text-gray-600">
-                      A small orange and a big orange are <strong>still both oranges</strong>!<br/>
-                      They match because they're the same fruit.
+                      Two apples are both apples<br/>
+                      They are both red<br/>
+                      They are both round
+                    </p>
+                  </div>
+                  <div className="bg-red-50 p-4 rounded-lg border-2 border-red-200">
+                    <h4 className="font-bold text-gray-800 mb-2">✓ Example: But...</h4>
+                    <p className="text-sm text-gray-600">
+                      One apple is small<br/>
+                      One apple is big<br/>
+                      Different sizes!
                     </p>
                   </div>
                 </div>
@@ -117,36 +125,32 @@ const MatchingActivity3 = () => {
                   <div>
                     <h4 className="font-semibold mb-2 text-gray-800">Parent Tips:</h4>
                     <ul className="text-sm text-gray-600 space-y-1">
-                      <li>• Encourage your child to say: "They're both [fruit name]!"</li>
-                      <li>• Ask: "Are they exactly the same size? What's different?"</li>
-                      <li>• Help them notice: "This one is small, this one is big, but they're both..."</li>
-                      <li>• Practice at home: Find items that are the same but different sizes</li>
+                      <li>• Help your child use the phrase "They are the same, but..."</li>
+                      <li>• Point out what makes them the same first</li>
+                      <li>• Then discuss what is different</li>
+                      <li>• Use size words: bigger, smaller, larger</li>
                     </ul>
                   </div>
                 </div>
 
                 {/* Key Vocabulary */}
-                <div className="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-200">
+                <div className="bg-purple-50 p-4 rounded-lg border-2 border-purple-200">
                   <div className="flex items-center gap-2 mb-3">
-                    <Lightbulb className="w-5 h-5 text-yellow-600" />
+                    <Lightbulb className="w-5 h-5 text-purple-600" />
                     <h4 className="font-bold text-gray-800">Key Words to Practice</h4>
                   </div>
-                  <div className="grid md:grid-cols-2 gap-3">
-                    <div className="bg-white p-3 rounded-lg">
-                      <p className="font-bold text-green-700">Same</p>
-                      <p className="text-sm text-gray-600">They're both apples, bananas, or oranges</p>
+                  <div className="grid md:grid-cols-3 gap-3">
+                    <div className="bg-white p-3 rounded">
+                      <p className="font-bold text-purple-700">Same</p>
+                      <p className="text-xs text-gray-600">Things that match</p>
                     </div>
-                    <div className="bg-white p-3 rounded-lg">
-                      <p className="font-bold text-green-700">Different Size</p>
-                      <p className="text-sm text-gray-600">One is small, one is big</p>
+                    <div className="bg-white p-3 rounded">
+                      <p className="font-bold text-purple-700">But...</p>
+                      <p className="text-xs text-gray-600">Shows a difference</p>
                     </div>
-                    <div className="bg-white p-3 rounded-lg">
-                      <p className="font-bold text-green-700">Match</p>
-                      <p className="text-sm text-gray-600">They go together</p>
-                    </div>
-                    <div className="bg-white p-3 rounded-lg">
-                      <p className="font-bold text-green-700">Fruit</p>
-                      <p className="text-sm text-gray-600">Apples, bananas, and oranges are fruits</p>
+                    <div className="bg-white p-3 rounded">
+                      <p className="font-bold text-purple-700">Bigger/Smaller</p>
+                      <p className="text-xs text-gray-600">Size words</p>
                     </div>
                   </div>
                 </div>
@@ -166,34 +170,97 @@ const MatchingActivity3 = () => {
             </div>
           </div>
         ) : (
-          <Card className="p-6 md:p-8 bg-white shadow-lg">
-            <div className="space-y-6">
-              <div className="bg-green-50 rounded-lg p-6 border-2 border-green-200">
-                <h2 className="text-xl font-semibold mb-3 text-gray-800">
-                  🍎 Match the Fruits
-                </h2>
-                <p className="text-gray-700 mb-4">
-                  Look carefully at each fruit. Find the pairs that are the <strong>same type</strong> but <strong>different sizes</strong>!
-                </p>
-                <ul className="space-y-2 text-gray-700">
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600 font-bold">•</span>
-                    <span>Find two apples - they're the same, but one is bigger!</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600 font-bold">•</span>
-                    <span>Find two bananas - they're the same, but different sizes!</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green-600 font-bold">•</span>
-                    <span>Find two oranges - they're the same, but one is larger!</span>
-                  </li>
-                </ul>
-              </div>
+          <div className="space-y-6">
+            {/* Game Instructions */}
+            <Card className="bg-green-50 border-2 border-green-300">
+              <CardContent className="pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl">🎯</div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-2 text-gray-800">How to Play:</h3>
+                    <ol className="space-y-1 text-gray-700">
+                      <li>1. Look at all the fruits carefully</li>
+                      <li>2. Find two fruits that are the same type (both apples, both bananas, etc.)</li>
+                      <li>3. Click on one, then click on its match</li>
+                      <li>4. Say: "They are the same, but one is bigger!"</li>
+                    </ol>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-              <MatchingGame items={matchingItems} onComplete={handleComplete} />
+            {/* Progress */}
+            <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow">
+              <div className="text-sm text-gray-600">
+                Attempts: <span className="font-semibold text-gray-800">{attempts}</span>
+              </div>
+              <div className="text-sm text-gray-600">
+                Matched: <span className="font-semibold text-gray-800">{matchedPairs.length / 2}</span> / 3
+              </div>
             </div>
-          </Card>
+
+            {/* Game Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {items.map((item) => {
+                const isMatched = matchedPairs.includes(item.id);
+                const isSelected = currentSelection?.id === item.id;
+                
+                return (
+                  <Card
+                    key={item.id}
+                    onClick={() => handleItemClick(item)}
+                    className={`
+                      cursor-pointer transition-all duration-300 hover:shadow-xl
+                      ${isMatched ? 'opacity-50 border-4 border-green-500 bg-green-50' : 'hover:scale-105'}
+                      ${isSelected ? 'border-4 border-blue-500 scale-105' : 'border-2'}
+                      ${item.size === 'large' ? 'aspect-square' : 'aspect-square'}
+                    `}
+                  >
+                    <div className="h-full flex flex-col items-center justify-center p-4">
+                      <div className={`${item.size === 'large' ? 'text-8xl' : 'text-6xl'} mb-2`}>
+                        {item.emoji}
+                      </div>
+                      <p className="text-sm text-center text-gray-600 font-medium">
+                        {item.size === 'large' ? 'Big' : 'Small'}
+                      </p>
+                      {isMatched && (
+                        <div className="mt-2 text-green-600 text-2xl">✓</div>
+                      )}
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+
+            {/* Completion */}
+            {allMatched && (
+              <Card className="bg-gradient-to-br from-green-100 to-yellow-100 border-4 border-green-400 shadow-xl">
+                <CardContent className="p-8 text-center">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h3 className="text-3xl font-bold mb-3 text-gray-800">Amazing Work!</h3>
+                  <p className="text-lg text-gray-700 mb-4">
+                    You matched all the fruits! You completed it in {attempts} attempts.
+                  </p>
+                  <div className="space-y-2 mb-6">
+                    {selectedPairs.map((pair, idx) => (
+                      <div key={idx} className="bg-white p-3 rounded-lg">
+                        <p className="text-gray-700">
+                          <span className="font-bold text-green-700">Match {idx + 1}:</span> {pair.item1.emoji} and {pair.item2.emoji} are the same {pair.item1.type}, but one is bigger!
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <Button 
+                    size="lg" 
+                    onClick={() => window.location.href = '/activities'}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    Continue Learning
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         )}
       </div>
     </div>
@@ -201,3 +268,207 @@ const MatchingActivity3 = () => {
 };
 
 export default MatchingActivity3;
+
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { Button } from "@/components/ui/button";
+// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+// import { ArrowLeft, Star, BookOpen, Users, Lightbulb } from "lucide-react";
+// import MatchingGame from "@/components/MatchingGame";
+// import appleSmall from "@/assets/apple-small.png";
+// import appleLarge from "@/assets/apple-large.png";
+// import bananaSmall from "@/assets/banana-small.png";
+// import bananaLarge from "@/assets/banana-large.png";
+// import orangeSmall from "@/assets/orange-small.png";
+// import orangeLarge from "@/assets/orange-large.png";
+
+// const MatchingActivity3 = () => {
+//   const [showGame, setShowGame] = useState(false);
+//   const navigate = useNavigate();
+
+//   const matchingItems = [
+//     { id: 1, image: appleSmall, matchId: "apple" },
+//     { id: 2, image: appleLarge, matchId: "apple" },
+//     { id: 3, image: bananaSmall, matchId: "banana" },
+//     { id: 4, image: bananaLarge, matchId: "banana" },
+//     { id: 5, image: orangeSmall, matchId: "orange" },
+//     { id: 6, image: orangeLarge, matchId: "orange" },
+//   ];
+
+//   const handleComplete = () => {
+//     navigate("/activities");
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4">
+//       <div className="max-w-6xl mx-auto">
+//         {/* Header */}
+//         <div className="flex items-center gap-4 mb-8">
+//           <Button variant="outline" size="icon" onClick={() => navigate("/activities")}>
+//             <ArrowLeft className="w-5 h-5" />
+//           </Button>
+//           <div>
+//             <div className="flex items-center gap-2">
+//               <span className="text-sm font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full">
+//                 Lesson 3
+//               </span>
+//               <h1 className="text-2xl font-bold text-gray-800">Match Fruits</h1>
+//             </div>
+//             <p className="text-sm text-gray-600">Topic A: Matching Objects</p>
+//           </div>
+//         </div>
+
+//         {!showGame ? (
+//           <div className="space-y-6">
+//             {/* Learning Objective */}
+//             <Card className="border-2 border-green-200 bg-white shadow-lg">
+//               <CardHeader>
+//                 <CardTitle className="flex items-center gap-2 text-2xl text-green-700">
+//                   <Star className="w-6 h-6" />
+//                   Learning Goal
+//                 </CardTitle>
+//               </CardHeader>
+//               <CardContent>
+//                 <p className="text-lg text-gray-700">
+//                   Today, your child will learn to <span className="font-bold text-green-700">match objects that are the same but different sizes</span>. 
+//                   They'll match fruits that are the same type, even when one is bigger or smaller!
+//                 </p>
+//               </CardContent>
+//             </Card>
+
+//             {/* Introduction */}
+//             <Card className="bg-white shadow-lg">
+//               <CardHeader>
+//                 <CardTitle className="text-xl text-gray-800">Same, But Different!</CardTitle>
+//                 <CardDescription>Read this together with your child</CardDescription>
+//               </CardHeader>
+//               <CardContent className="space-y-4">
+//                 <div className="bg-green-50 p-6 rounded-xl border-2 border-green-200">
+//                   <p className="text-lg text-gray-700 mb-4">
+//                     In Lesson 2, we learned that things can be <strong>the same</strong> even if they're <strong>different sizes</strong>.
+//                   </p>
+//                   <p className="text-lg text-gray-700 mb-4">
+//                     Today, we'll practice with <strong>fruits</strong>! We'll find apples, bananas, and oranges that match - even when one is small and one is big!
+//                   </p>
+//                 </div>
+
+//                 <div className="grid md:grid-cols-3 gap-4">
+//                   <div className="bg-red-50 p-4 rounded-lg border-2 border-red-200">
+//                     <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+//                       🍎 Apples
+//                     </h4>
+//                     <p className="text-sm text-gray-600">
+//                       A small apple and a big apple are <strong>still both apples</strong>!<br/>
+//                       They match because they're the same fruit.
+//                     </p>
+//                   </div>
+//                   <div className="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-200">
+//                     <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+//                       🍌 Bananas
+//                     </h4>
+//                     <p className="text-sm text-gray-600">
+//                       A small banana and a big banana are <strong>still both bananas</strong>!<br/>
+//                       They match because they're the same fruit.
+//                     </p>
+//                   </div>
+//                   <div className="bg-orange-50 p-4 rounded-lg border-2 border-orange-200">
+//                     <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+//                       🍊 Oranges
+//                     </h4>
+//                     <p className="text-sm text-gray-600">
+//                       A small orange and a big orange are <strong>still both oranges</strong>!<br/>
+//                       They match because they're the same fruit.
+//                     </p>
+//                   </div>
+//                 </div>
+
+//                 {/* Parent Tips */}
+//                 <div className="flex items-start gap-4 p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+//                   <Users className="w-8 h-8 text-blue-600 flex-shrink-0" />
+//                   <div>
+//                     <h4 className="font-semibold mb-2 text-gray-800">Parent Tips:</h4>
+//                     <ul className="text-sm text-gray-600 space-y-1">
+//                       <li>• Encourage your child to say: "They're both [fruit name]!"</li>
+//                       <li>• Ask: "Are they exactly the same size? What's different?"</li>
+//                       <li>• Help them notice: "This one is small, this one is big, but they're both..."</li>
+//                       <li>• Practice at home: Find items that are the same but different sizes</li>
+//                     </ul>
+//                   </div>
+//                 </div>
+
+//                 {/* Key Vocabulary */}
+//                 <div className="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-200">
+//                   <div className="flex items-center gap-2 mb-3">
+//                     <Lightbulb className="w-5 h-5 text-yellow-600" />
+//                     <h4 className="font-bold text-gray-800">Key Words to Practice</h4>
+//                   </div>
+//                   <div className="grid md:grid-cols-2 gap-3">
+//                     <div className="bg-white p-3 rounded-lg">
+//                       <p className="font-bold text-green-700">Same</p>
+//                       <p className="text-sm text-gray-600">They're both apples, bananas, or oranges</p>
+//                     </div>
+//                     <div className="bg-white p-3 rounded-lg">
+//                       <p className="font-bold text-green-700">Different Size</p>
+//                       <p className="text-sm text-gray-600">One is small, one is big</p>
+//                     </div>
+//                     <div className="bg-white p-3 rounded-lg">
+//                       <p className="font-bold text-green-700">Match</p>
+//                       <p className="text-sm text-gray-600">They go together</p>
+//                     </div>
+//                     <div className="bg-white p-3 rounded-lg">
+//                       <p className="font-bold text-green-700">Fruit</p>
+//                       <p className="text-sm text-gray-600">Apples, bananas, and oranges are fruits</p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </CardContent>
+//             </Card>
+
+//             {/* Start Button */}
+//             <div className="text-center">
+//               <Button 
+//                 size="lg" 
+//                 onClick={() => setShowGame(true)}
+//                 className="text-lg px-8 py-6 bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl transition-all"
+//               >
+//                 <BookOpen className="w-5 h-5 mr-2" />
+//                 Start Matching Activity
+//               </Button>
+//             </div>
+//           </div>
+//         ) : (
+//           <Card className="p-6 md:p-8 bg-white shadow-lg">
+//             <div className="space-y-6">
+//               <div className="bg-green-50 rounded-lg p-6 border-2 border-green-200">
+//                 <h2 className="text-xl font-semibold mb-3 text-gray-800">
+//                   🍎 Match the Fruits
+//                 </h2>
+//                 <p className="text-gray-700 mb-4">
+//                   Look carefully at each fruit. Find the pairs that are the <strong>same type</strong> but <strong>different sizes</strong>!
+//                 </p>
+//                 <ul className="space-y-2 text-gray-700">
+//                   <li className="flex items-start gap-2">
+//                     <span className="text-green-600 font-bold">•</span>
+//                     <span>Find two apples - they're the same, but one is bigger!</span>
+//                   </li>
+//                   <li className="flex items-start gap-2">
+//                     <span className="text-green-600 font-bold">•</span>
+//                     <span>Find two bananas - they're the same, but different sizes!</span>
+//                   </li>
+//                   <li className="flex items-start gap-2">
+//                     <span className="text-green-600 font-bold">•</span>
+//                     <span>Find two oranges - they're the same, but one is larger!</span>
+//                   </li>
+//                 </ul>
+//               </div>
+
+//               <MatchingGame items={matchingItems} onComplete={handleComplete} />
+//             </div>
+//           </Card>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default MatchingActivity3;
