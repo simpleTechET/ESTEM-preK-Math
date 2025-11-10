@@ -113,45 +113,7 @@ const MatchingActivity4 = () => {
             </Card>
 
             {/* Body Parts Warm-Up */}
-            {showBodyParts && (
-              <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-300 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-xl text-gray-800">🎵 Warm-Up: I Have 2 Chant</CardTitle>
-                  <CardDescription>Let's count body parts that come in pairs!</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="bg-white p-6 rounded-xl border-2 border-blue-200">
-                    <p className="text-gray-700 mb-4">
-                      <strong>Parent:</strong> Point to each body part as you count together!
-                    </p>
-                    
-                    <div className="space-y-3">
-                      {bodyParts.map((part, idx) => (
-                        <div key={idx} className="flex items-center gap-4 p-3 bg-blue-50 rounded-lg">
-                          <span className="text-4xl">{part.emoji}</span>
-                          <div className="flex-1">
-                            <p className="font-semibold text-gray-800">{part.name}</p>
-                            <p className="text-sm text-gray-600">
-                              Point: 1 {part.name.slice(0, -1).toLowerCase()}, 2 {part.name.slice(0, -1).toLowerCase()} - I have 2!
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                      <div className="text-center p-4 bg-yellow-100 rounded-lg border-2 border-yellow-300">
-                        <p className="text-2xl font-bold text-gray-800">Yahoo! And so do you! 🎉</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button 
-                    onClick={() => setShowBodyParts(false)}
-                    className="w-full bg-blue-600 hover:bg-blue-700"
-                  >
-                    Continue to Main Lesson
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
+            
 
             {/* Introduction */}
             {!showBodyParts && (
