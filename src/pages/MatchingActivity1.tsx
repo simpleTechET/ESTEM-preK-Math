@@ -117,6 +117,36 @@ const MatchingActivity1 = () => {
             </Card>
 
             {/* Vocabulary */}
+ <div className="text-center">
+              <Button 
+                size="lg" 
+                onClick={() => setShowGame(true)}
+                className="text-lg px-8 py-6 shadow-playful hover:scale-105 transition-all"
+              >
+                <BookOpen className="w-5 h-5 mr-2" />
+                Start Activity
+              </Button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Game Instructions */}
+            <Card className="mb-8 bg-primary/5 border-2 border-primary/20">
+              <CardContent className="pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl">🎯</div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-2 text-foreground">How to Play:</h3>
+                    <ol className="space-y-1 text-foreground">
+                      <li>1. Click on an object</li>
+                      <li>2. Click on another object that is exactly the same</li>
+                      <li>3. If they match, you'll see a checkmark!</li>
+                      <li>4. Match all the pairs to complete the activity</li>
+                    </ol>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Game */}
             <MatchingGame items={shuffledGameItems} onComplete={handleComplete} />
