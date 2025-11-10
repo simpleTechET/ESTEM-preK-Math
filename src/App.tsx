@@ -11,6 +11,7 @@ import MatchingActivity2 from "./pages/MatchingActivity2";
 import MatchingActivity3 from "./pages/MatchingActivity3";
 import MatchingActivity4 from "./pages/MatchingActivity4";
 import SortingActivity5 from "./pages/SortingActivity5";
+import SortingActivity6 from "./pages/SortingActivity6";
 
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/activity/matching-3" element={<MatchingActivity3 />} />
           <Route path="/activity/matching-4" element={<MatchingActivity4 />} />
           <Route path="/activity/sorting-5" element={<SortingActivity5 />} />
+          <Route path="/activity/sorting-6" element={<SortingActivity6 />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

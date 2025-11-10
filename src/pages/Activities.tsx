@@ -192,7 +192,9 @@ const sortingLessons = [
     title: "Sort into Two",
     description: "Divide objects into two groups",
     icon: "⚖️",
-    duration: "12 min"
+    duration: "12 min",
+    path: "/activity/sorting-6",
+    unlocked: true
   },
   {
     id: 7,

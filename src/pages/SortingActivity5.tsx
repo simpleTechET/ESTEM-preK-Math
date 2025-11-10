@@ -173,7 +173,7 @@ const SortingActivity5 = () => {
             groupName="Food"
             instruction="Let's make a group of FOOD!"
             onComplete={() => {
-              setTimeout(() => navigate("/activities"), 2000);
+              setTimeout(() => navigate("/activity/sorting-6"), 2000);
             }}
           />
         )}
