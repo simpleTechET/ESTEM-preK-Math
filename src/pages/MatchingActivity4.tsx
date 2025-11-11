@@ -15,7 +15,6 @@ import shoeImg from "@/assets/shoe.png";
 const MatchingActivity4 = () => {
   const navigate = useNavigate();
   const [showGame, setShowGame] = useState(false);
-  const [showBodyParts, setShowBodyParts] = useState(true);
   const [currentSelection, setCurrentSelection] = useState(null);
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [attempts, setAttempts] = useState(0);
@@ -34,15 +33,6 @@ const MatchingActivity4 = () => {
     ];
     return [...itemsArray].sort(() => Math.random() - 0.5);
   }, []);
-
-  // Body parts that come in pairs
-  const bodyParts = [
-    { name: "Eyes", emoji: "👁️", count: 2 },
-    { name: "Ears", emoji: "👂", count: 2 },
-    { name: "Hands", emoji: "✋", count: 2 },
-    { name: "Feet", emoji: "🦶", count: 2 },
-    { name: "Legs", emoji: "🦵", count: 2 },
-  ];
 
   const handleItemClick = (item) => {
     if (matchedPairs.includes(item.id)) return;
@@ -90,67 +80,6 @@ const MatchingActivity4 = () => {
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         {!showGame ? (
           <div className="space-y-6">
-            {/* FIRST PAGE: Learning Goal + Body Parts Warm-Up */}
-            {showBodyParts ? (
-              <>
-                {/* Learning Objective */}
-                <Card className="border-2 border-primary/20">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-2xl">
-                      <Star className="w-6 h-6 text-primary" />
-                      Learning Goal
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-lg text-foreground">
-                      Today, your child will learn to <span className="font-bold text-primary">match 2 objects that are used together</span>. 
-                      These objects might not look the same at all, but they work together for a purpose!
-                    </p>
-                  </CardContent>
-                </Card>
-
-                {/* Body Parts Warm-Up */}
-                <Card className="bg-primary/5 border-2 border-primary/20">
-                  <CardHeader>
-                    <CardTitle className="text-xl">🎵 Warm-Up: I Have 2 Chant</CardTitle>
-                    <CardDescription>Let's count body parts that come in pairs!</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="bg-card p-6 rounded-xl border-2 border-primary/20">
-                      <p className="text-foreground mb-4">
-                        <strong>Parent:</strong> Point to each body part as you count together!
-                      </p>
-                      
-                      <div className="space-y-3">
-                        {bodyParts.map((part, idx) => (
-                          <div key={idx} className="flex items-center gap-4 p-3 bg-secondary/30 rounded-lg">
-                            <span className="text-4xl">{part.emoji}</span>
-                            <div className="flex-1">
-                              <p className="font-semibold text-foreground">{part.name}</p>
-                              <p className="text-sm text-muted-foreground">
-                                Point: 1 {part.name.slice(0, -1).toLowerCase()}, 2 {part.name.slice(0, -1).toLowerCase()} - I have 2!
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                        <div className="text-center p-4 bg-warning/20 rounded-lg border-2 border-warning/30">
-                          <p className="text-2xl font-bold text-foreground">Yahoo! And so do you! 🎉</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <Button 
-                      onClick={() => setShowBodyParts(false)}
-                      className="w-full"
-                    >
-                      Continue to Main Lesson
-                    </Button>
-                  </CardContent>
-                </Card>
-              </>
-            ) : (
-              // SECOND PAGE: Main Introduction
-              <>
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-xl">A New Way to Match!</CardTitle>
@@ -235,11 +164,9 @@ const MatchingActivity4 = () => {
                     className="text-lg px-8 py-6 shadow-playful hover:scale-105 transition-all"
                   >
                     <BookOpen className="w-5 h-5 mr-2" />
-                    Start Matching Activity
-                  </Button>
-                </div>
-              </>
-            )}
+                  Start Matching Activity
+                </Button>
+              </div>
           </div>
         ) : (
           // THIRD PAGE: Game
