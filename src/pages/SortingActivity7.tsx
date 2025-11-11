@@ -4,9 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft, Star, BookOpen, Users, Lightbulb, CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import bearBlue from "@/assets/bear-blue.png";
 import bearBlueLarge from "@/assets/bear-blue-large.png";
 import bearBlueSmall from "@/assets/bear-blue-small.png";
+import bearRedLarge from "@/assets/bear-red-large.png";
+import bearRedSmall from "@/assets/bear-red-small.png";
 
 const SortingActivity7 = () => {
   const [showGame, setShowGame] = useState(false);
@@ -20,9 +21,9 @@ const SortingActivity7 = () => {
     { id: 1, name: "Big Blue Bear", image: bearBlueLarge, color: "blue", size: "big" },
     { id: 2, name: "Big Blue Bear", image: bearBlueLarge, color: "blue", size: "big" },
     { id: 3, name: "Small Blue Bear", image: bearBlueSmall, color: "blue", size: "small" },
-    { id: 4, name: "Big Red Bear", image: bearBlue, color: "red", size: "big" },
-    { id: 5, name: "Big Red Bear", image: bearBlue, color: "red", size: "big" },
-    { id: 6, name: "Small Red Bear", image: bearBlueSmall, color: "red", size: "small" },
+    { id: 4, name: "Big Red Bear", image: bearRedLarge, color: "red", size: "big" },
+    { id: 5, name: "Big Red Bear", image: bearRedLarge, color: "red", size: "big" },
+    { id: 6, name: "Small Red Bear", image: bearRedSmall, color: "red", size: "small" },
   ];
 
   const handleItemClick = (bear: typeof bears[0]) => {
