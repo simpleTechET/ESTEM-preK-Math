@@ -16,25 +16,20 @@ interface CountingItem {
 const CountingActivity9 = () => {
   const navigate = useNavigate();
   const [showGame, setShowGame] = useState(false);
-  const [currentStep, setCurrentStep] = useState<'fingers' | 'sort' | 'line'>('fingers');
+  const [currentStep, setCurrentStep] = useState<'fingers' | 'count' | 'complete'>('fingers');
   const [fingerCount, setFingerCount] = useState<number | null>(null);
-  const [lineAnswers, setLineAnswers] = useState<Record<number, CountingItem[]>>({
-    1: [],
-    2: [],
-    3: []
-  });
+  const [selectedAnimal, setSelectedAnimal] = useState<CountingItem | null>(null);
+  const [placedAnimals, setPlacedAnimals] = useState<CountingItem[]>([]);
 
-  // Animals with emojis
+  // Animals with emojis - mixed counts for counting practice
   const animals = useMemo(() => [
     { id: 1, type: "horse", emoji: "🐎", count: 1 as const },
-    { id: 2, type: "pig", emoji: "🐖", count: 2 as const },
+    { id: 2, type: "cow", emoji: "🐄", count: 2 as const },
     { id: 3, type: "pig", emoji: "🐖", count: 2 as const },
     { id: 4, type: "sheep", emoji: "🐑", count: 3 as const },
-    { id: 5, type: "sheep", emoji: "🐑", count: 3 as const },
-    { id: 6, type: "sheep", emoji: "🐑", count: 3 as const },
+    { id: 5, type: "chicken", emoji: "🐔", count: 1 as const },
+    { id: 6, type: "duck", emoji: "🦆", count: 3 as const },
   ].sort(() => Math.random() - 0.5), []);
-
-  const [unsortedAnimals, setUnsortedAnimals] = useState<CountingItem[]>(animals);
 
   // Shuffled finger questions
   const fingerQuestions = useMemo(() => 
@@ -49,7 +44,7 @@ const CountingActivity9 = () => {
         setCurrentFingerQ(currentFingerQ + 1);
         setFingerCount(null);
       } else {
-        setCurrentStep('sort');
+        setCurrentStep('count');
       }
     } else {
       toast.error("Try again! 🤔", { description: "Count your fingers carefully." });
@@ -57,20 +52,37 @@ const CountingActivity9 = () => {
     }
   };
 
-  const handleAnimalPlace = (animal: CountingItem, lineNum: number) => {
-    if (animal.count === lineNum) {
-      setLineAnswers({
-        ...lineAnswers,
-        [lineNum]: [...lineAnswers[lineNum], animal]
+  const handleAnimalClick = (animal: CountingItem) => {
+    setSelectedAnimal(animal);
+    toast.info("Count the animals!", { 
+      description: `How many ${animal.type}s are there? Click the correct number below.` 
+    });
+  };
+
+  const handleNumberClick = (number: number) => {
+    if (!selectedAnimal) return;
+
+    if (number === selectedAnimal.count) {
+      toast.success("Correct! 🎉", { 
+        description: `Yes! There ${selectedAnimal.count === 1 ? 'is' : 'are'} ${selectedAnimal.count} ${selectedAnimal.type}${selectedAnimal.count > 1 ? 's' : ''}!` 
       });
-      setUnsortedAnimals(unsortedAnimals.filter(a => a.id !== animal.id));
-      toast.success("Correct! 🎉", { description: `${animal.type} goes in line ${lineNum}!` });
+      setPlacedAnimals([...placedAnimals, selectedAnimal]);
+      setSelectedAnimal(null);
+
+      // Check if all animals are placed
+      if (placedAnimals.length + 1 === animals.length) {
+        setTimeout(() => setCurrentStep('complete'), 1000);
+      }
     } else {
-      toast.error("Not quite! 🤔", { description: `Count the dots in that line.` });
+      toast.error("Let's count again! 🤔", { 
+        description: `Touch each ${selectedAnimal.type} and count: 1, 2, 3...` 
+      });
     }
   };
 
-  const isComplete = unsortedAnimals.length === 0;
+  const remainingAnimals = animals.filter(animal => 
+    !placedAnimals.some(placed => placed.id === animal.id)
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 p-4">
@@ -92,6 +104,7 @@ const CountingActivity9 = () => {
         </div>
 
         {!showGame ? (
+          // ... (Keep the same introduction page as before)
           <div className="space-y-6">
             {/* Learning Objective */}
             <Card className="border-2 border-green-200 bg-white shadow-lg">
@@ -104,7 +117,7 @@ const CountingActivity9 = () => {
               <CardContent>
                 <p className="text-lg text-gray-700">
                   Today, your child will learn to <span className="font-bold text-green-700">count up to 3 objects</span> arranged 
-                  in different ways - scattered in groups or lined up in a row!
+                  in different ways - in lines, groups, or scattered!
                 </p>
               </CardContent>
             </Card>
@@ -112,42 +125,44 @@ const CountingActivity9 = () => {
             {/* Introduction */}
             <Card className="bg-white shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl text-gray-800">Counting in Lines & Groups</CardTitle>
+                <CardTitle className="text-xl text-gray-800">Counting in Different Arrangements</CardTitle>
                 <CardDescription>Read this together with your child</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="bg-green-50 p-6 rounded-xl border-2 border-green-200">
                   <p className="text-lg text-gray-700 mb-4">
-                    We can count objects no matter how they're arranged!
+                    Animals can be arranged in different ways, but we count them the same!
                   </p>
-                  <div className="grid md:grid-cols-2 gap-4 mb-4">
-                    <div className="bg-white p-4 rounded-lg border-2 border-blue-200">
+                  <div className="grid md:grid-cols-3 gap-4 mb-4">
+                    <div className="bg-white p-4 rounded-lg border-2 border-blue-200 text-center">
                       <p className="font-bold text-blue-700 mb-2">In a Line</p>
-                      <div className="text-4xl text-center">🐑 🐑 🐑</div>
-                      <p className="text-sm text-gray-600 mt-2">1, 2, 3 sheep in a row!</p>
+                      <div className="text-3xl">🐑<br/>🐑<br/>🐑</div>
+                      <p className="text-sm text-gray-600 mt-2">1, 2, 3 sheep!</p>
                     </div>
-                    <div className="bg-white p-4 rounded-lg border-2 border-purple-200">
+                    <div className="bg-white p-4 rounded-lg border-2 border-purple-200 text-center">
                       <p className="font-bold text-purple-700 mb-2">In a Group</p>
-                      <div className="text-4xl text-center">🐖🐖</div>
-                      <p className="text-sm text-gray-600 mt-2">1, 2 pigs together!</p>
+                      <div className="text-3xl">🐖🐖</div>
+                      <p className="text-sm text-gray-600 mt-2">1, 2 pigs!</p>
                     </div>
-                  </div>
-                  <div className="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-200">
-                    <p className="text-sm text-gray-700">
-                      <strong>Remember:</strong> Whether objects are in a line or a group, we count them the same way!
-                    </p>
+                    <div className="bg-white p-4 rounded-lg border-2 border-orange-200 text-center">
+                      <p className="font-bold text-orange-700 mb-2">Scattered</p>
+                      <div className="text-3xl">🐔<br/>🐔 🐔</div>
+                      <p className="text-sm text-gray-600 mt-2">Still 3 chickens!</p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Real World Connection */}
+                {/* Game Instructions */}
                 <div className="bg-blue-50 p-4 rounded-lg border-2 border-blue-200">
                   <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                    <span className="text-2xl">🌍</span> Real World Counting
+                    <span className="text-2xl">🎮</span> How to Play
                   </h4>
-                  <p className="text-sm text-gray-600">
-                    Farmers count animals in pens, teachers count students in lines, 
-                    and chefs count ingredients in bowls. Counting helps us organize everything!
-                  </p>
+                  <ol className="text-sm text-gray-600 space-y-2 ml-6">
+                    <li><strong>1.</strong> Click on an animal group</li>
+                    <li><strong>2.</strong> Count how many animals you see</li>
+                    <li><strong>3.</strong> Click the correct number (1, 2, or 3)</li>
+                    <li><strong>4.</strong> Help all the animals find their homes!</li>
+                  </ol>
                 </div>
 
                 {/* Parent Tips */}
@@ -156,170 +171,171 @@ const CountingActivity9 = () => {
                   <div>
                     <h4 className="font-semibold mb-2 text-gray-800">Parent Tips:</h4>
                     <ul className="text-sm text-gray-600 space-y-1">
-                      <li>• Help your child touch each object as they count</li>
-                      <li>• Ask: "How many do you see?" for both lines and groups</li>
-                      <li>• Show that 3 scattered objects = 3 lined up objects</li>
-                      <li>• Practice counting fingers: 1, 2, 3!</li>
+                      <li>• Help your child touch each animal as they count</li>
+                      <li>• Ask: "How many do you see in this group?"</li>
+                      <li>• Show that arrangement doesn't change the count</li>
+                      <li>• Celebrate when they get it right!</li>
                     </ul>
                   </div>
                 </div>
 
-                {/* Key Vocabulary */}
-                <div className="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Lightbulb className="w-5 h-5 text-yellow-600" />
-                    <h4 className="font-bold text-gray-800">Key Words</h4>
-                  </div>
-                  <div className="grid md:grid-cols-3 gap-3">
-                    <div className="bg-white p-3 rounded-lg">
-                      <p className="font-bold text-green-700">Line</p>
-                      <p className="text-sm text-gray-600">Objects in a row</p>
-                    </div>
-                    <div className="bg-white p-3 rounded-lg">
-                      <p className="font-bold text-green-700">Group</p>
-                      <p className="text-sm text-gray-600">Objects together</p>
-                    </div>
-                    <div className="bg-white p-3 rounded-lg">
-                      <p className="font-bold text-green-700">Count</p>
-                      <p className="text-sm text-gray-600">1, 2, 3...</p>
-                    </div>
-                  </div>
+                {/* Start Button */}
+                <div className="text-center">
+                  <Button 
+                    size="lg" 
+                    onClick={() => setShowGame(true)}
+                    className="text-lg px-8 py-6 bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl transition-all"
+                  >
+                    <BookOpen className="w-5 h-5 mr-2" />
+                    Start Counting Activity
+                  </Button>
                 </div>
               </CardContent>
             </Card>
-
-            {/* Start Button */}
-            <div className="text-center">
-              <Button 
-                size="lg" 
-                onClick={() => setShowGame(true)}
-                className="text-lg px-8 py-6 bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl transition-all"
-              >
-                <BookOpen className="w-5 h-5 mr-2" />
-                Start Counting Activity
-              </Button>
-            </div>
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Finger Counting */}
+            {/* Finger Counting Warm-up */}
             {currentStep === 'fingers' && (
-              <>
-                <Card className="p-6 bg-blue-50 border-2 border-blue-200">
-                  <h3 className="text-xl font-bold mb-4 text-gray-800">
-                    👋 Show Me Fingers!
-                  </h3>
-                  <p className="text-lg text-gray-700 mb-4">
-                    Show me <strong className="text-blue-700 text-3xl">{fingerQuestions[currentFingerQ]}</strong> finger{fingerQuestions[currentFingerQ] > 1 ? 's' : ''}!
-                  </p>
-                  <div className="flex gap-4 justify-center">
-                    {[1, 2, 3].map(num => (
-                      <Button
-                        key={num}
-                        onClick={() => handleFingerAnswer(num)}
-                        size="lg"
-                        className={`text-4xl py-8 ${fingerCount === num ? 'bg-blue-600' : 'bg-white text-gray-800 hover:bg-blue-100'}`}
-                      >
-                        {num === 1 ? '☝️' : num === 2 ? '✌️' : '🤟'}
-                      </Button>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600 mt-4 text-center">
-                    Question {currentFingerQ + 1} of {fingerQuestions.length}
-                  </p>
-                </Card>
-              </>
+              <Card className="p-6 bg-blue-50 border-2 border-blue-200">
+                <h3 className="text-xl font-bold mb-4 text-gray-800">
+                  👋 Finger Warm-up!
+                </h3>
+                <p className="text-lg text-gray-700 mb-4">
+                  Show me <strong className="text-blue-700 text-3xl">{fingerQuestions[currentFingerQ]}</strong> finger{fingerQuestions[currentFingerQ] > 1 ? 's' : ''}!
+                </p>
+                <div className="flex gap-4 justify-center">
+                  {[1, 2, 3].map(num => (
+                    <Button
+                      key={num}
+                      onClick={() => handleFingerAnswer(num)}
+                      size="lg"
+                      className={`text-4xl py-8 ${fingerCount === num ? 'bg-blue-600' : 'bg-white text-gray-800 hover:bg-blue-100'}`}
+                    >
+                      {num === 1 ? '☝️' : num === 2 ? '✌️' : '🤟'}
+                    </Button>
+                  ))}
+                </div>
+                <p className="text-sm text-gray-600 mt-4 text-center">
+                  Question {currentFingerQ + 1} of {fingerQuestions.length}
+                </p>
+              </Card>
             )}
 
-            {/* Sorting & Lining Up */}
-            {currentStep === 'sort' && (
+            {/* Main Counting Game */}
+            {currentStep === 'count' && (
               <>
                 <Card className="p-6 bg-green-50 border-2 border-green-200">
                   <h3 className="text-xl font-bold mb-2 text-gray-800">
-                    🐄 Old MacDonald's Farm
+                    🐄 Farm Animal Counting
                   </h3>
-                  <p className="text-gray-700 mb-4">
-                    Help the animals line up for lunch! Click an animal, then click the line with the matching number of dots.
+                  <p className="text-gray-700 mb-2">
+                    Count the animals in each group! Click a group, then click how many animals you counted.
                   </p>
-                </Card>
-
-                {/* Unsorted Animals */}
-                {unsortedAnimals.length > 0 && (
-                  <div>
-                    <h4 className="text-lg font-semibold mb-3 text-gray-800">Animals in the Pen:</h4>
-                    <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-                      {unsortedAnimals.map(animal => (
-                        <Card
-                          key={animal.id}
-                          className="cursor-pointer hover:scale-105 transition-all border-2 hover:border-green-500 text-center p-4"
-                          onClick={() => {
-                            // When animal is clicked, place it in correct line
-                            handleAnimalPlace(animal, animal.count);
-                          }}
-                        >
-                          <div className="text-6xl mb-2">{animal.emoji}</div>
-                          <p className="text-sm text-gray-600">{animal.type}</p>
-                        </Card>
-                      ))}
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex-1 bg-white p-2 rounded border">
+                      Remaining: {remainingAnimals.length} groups
+                    </div>
+                    <div className="flex-1 bg-white p-2 rounded border">
+                      Completed: {placedAnimals.length} groups
                     </div>
                   </div>
-                )}
+                </Card>
 
-                {/* Lines with Dots */}
-                <div className="grid md:grid-cols-3 gap-4">
-                  {[1, 2, 3].map(lineNum => (
-                    <Card 
-                      key={lineNum}
-                      className={`min-h-[200px] transition-all ${
-                        unsortedAnimals.length > 0 ? 'border-4 border-dashed border-green-300' : 'border-2'
-                      }`}
-                    >
-                      <CardHeader className="bg-green-100 border-b-2">
-                        <CardTitle className="text-center">
-                          <div className="flex justify-center gap-2 mb-2">
-                            {Array(lineNum).fill(0).map((_, i) => (
-                              <div key={i} className="w-8 h-8 rounded-full bg-green-600" />
-                            ))}
-                          </div>
-                          Line {lineNum}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-4">
-                        {lineAnswers[lineNum].length === 0 ? (
-                          <p className="text-gray-500 text-center py-4">Animals will appear here</p>
-                        ) : (
-                          <div className="space-y-2">
-                            {lineAnswers[lineNum].map(animal => (
-                              <div key={animal.id} className="flex items-center gap-2 p-2 bg-green-50 rounded">
-                                <span className="text-4xl">{animal.emoji}</span>
-                                <CheckCircle2 className="w-5 h-5 text-green-600" />
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))}
+                {/* Animal Groups to Count */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {animals.map(animal => {
+                    const isPlaced = placedAnimals.some(placed => placed.id === animal.id);
+                    const isSelected = selectedAnimal?.id === animal.id;
+                    
+                    return (
+                      <Card
+                        key={animal.id}
+                        onClick={() => !isPlaced && handleAnimalClick(animal)}
+                        className={`
+                          text-center p-6 cursor-pointer transition-all
+                          ${isPlaced 
+                            ? 'opacity-50 border-4 border-green-500 bg-green-50' 
+                            : isSelected
+                            ? 'border-4 border-blue-500 scale-105 bg-blue-50'
+                            : 'hover:scale-105 hover:border-green-300 border-2'
+                          }
+                        `}
+                      >
+                        <div className="text-6xl mb-3">
+                          {/* Show multiple emojis based on count */}
+                          {Array(animal.count).fill(animal.emoji).map((emoji, index) => (
+                            <span 
+                              key={index} 
+                              className={`
+                                ${animal.count === 2 ? 'inline-block mx-1' : ''}
+                                ${animal.count === 3 ? 'block' : ''}
+                              `}
+                            >
+                              {emoji}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="text-sm text-gray-600 capitalize">
+                          {animal.type}{animal.count > 1 ? 's' : ''}
+                          {isPlaced && <CheckCircle2 className="w-4 h-4 text-green-600 inline ml-1" />}
+                        </p>
+                      </Card>
+                    );
+                  })}
                 </div>
 
-                {/* Completion */}
-                {isComplete && (
-                  <Card className="bg-gradient-to-br from-green-100 to-blue-100 border-4 border-green-400 p-8 text-center">
-                    <div className="text-6xl mb-4">🎉</div>
-                    <h3 className="text-3xl font-bold mb-3 text-gray-800">Excellent Counting!</h3>
-                    <p className="text-lg text-gray-700 mb-6">
-                      You helped all the animals line up for lunch! You counted objects in lines and groups perfectly!
-                    </p>
-                    <Button 
-                      size="lg"
-                      onClick={() => navigate('/activities')}
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      Continue Learning
-                    </Button>
+                {/* Number Selection */}
+                {selectedAnimal && (
+                  <Card className="p-6 bg-yellow-50 border-2 border-yellow-200">
+                    <h3 className="text-lg font-bold mb-4 text-gray-800 text-center">
+                      How many {selectedAnimal.type}s did you count?
+                    </h3>
+                    <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+                      {[1, 2, 3].map(number => (
+                        <Button
+                          key={number}
+                          onClick={() => handleNumberClick(number)}
+                          size="lg"
+                          className="h-20 text-2xl font-bold bg-white hover:bg-green-100 border-2 border-green-300"
+                        >
+                          {number}
+                        </Button>
+                      ))}
+                    </div>
                   </Card>
                 )}
               </>
+            )}
+
+            {/* Completion */}
+            {currentStep === 'complete' && (
+              <Card className="bg-gradient-to-br from-green-100 to-blue-100 border-4 border-green-400 p-8 text-center">
+                <div className="text-6xl mb-4">🎉</div>
+                <h3 className="text-3xl font-bold mb-3 text-gray-800">Excellent Counting!</h3>
+                <p className="text-lg text-gray-700 mb-4">
+                  You counted all the animal groups correctly! You're amazing at counting in lines and groups!
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                  {placedAnimals.map(animal => (
+                    <div key={animal.id} className="bg-white p-3 rounded-lg border">
+                      <div className="text-4xl mb-2">
+                        {Array(animal.count).fill(animal.emoji).map((emoji, i) => (
+                          <span key={i}>{emoji}</span>
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-600">{animal.count} {animal.type}{animal.count > 1 ? 's' : ''}</p>
+                    </div>
+                  ))}
+                </div>
+                <Button 
+                  size="lg"
+                  onClick={() => navigate('/activities')}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  Continue Learning
+                </Button>
+              </Card>
             )}
           </div>
         )}
