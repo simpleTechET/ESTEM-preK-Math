@@ -18,6 +18,7 @@ const SortingActivity6 = lazy(() => import("./pages/SortingActivity6"));
 const SortingActivity7 = lazy(() => import("./pages/SortingActivity7"));
 const CountingActivity8 = lazy(() => import("./pages/CountingActivity8"));
 const CountingActivity9 = lazy(() => import("./pages/CountingActivity9"));
+const CountingActivity10 = lazy(() => import("./pages/CountingActivity10"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/activity/sorting-7" element={<SortingActivity7 />} />
             <Route path="/activity/counting-8" element={<CountingActivity8 />} />
             <Route path="/activity/counting-9" element={<CountingActivity9 />} />
+            <Route path="/activity/counting-10" element={<CountingActivity10 />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
