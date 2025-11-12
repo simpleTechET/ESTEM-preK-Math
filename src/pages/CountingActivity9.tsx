@@ -6,15 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft, Star, BookOpen, Users, Lightbulb, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
-// Import animal images - you'll need these
-import horseImg from "@/assets/horse.png";
-import pigImg from "@/assets/pig.png";
-import sheepImg from "@/assets/sheep.png";
-
 interface CountingItem {
   id: number;
   type: string;
-  image: string;
+  emoji: string;
   count: 1 | 2 | 3;
 }
 
