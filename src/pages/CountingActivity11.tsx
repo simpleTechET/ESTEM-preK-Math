@@ -14,10 +14,20 @@ interface GamePosition {
 const CountingActivity11 = () => {
   const navigate = useNavigate();
   const [showGame, setShowGame] = useState(false);
-  const [currentStep, setCurrentStep] = useState<'parking' | 'bearGame' | 'complete'>('parking');
+  const [currentStep, setCurrentStep] = useState<'warmup' | 'parking' | 'bearGame' | 'complete'>('warmup');
   const [currentPlayer, setCurrentPlayer] = useState<'player1' | 'player2'>('player1');
   const [gamePositions, setGamePositions] = useState<GamePosition>({ player1: 0, player2: 0 });
   const [parkedCars, setParkedCars] = useState<number[]>([]);
+  const [touchFloorStep, setTouchFloorStep] = useState(0);
+
+  // Touch the floor actions
+  const touchFloorActions = [
+    "Touch the floor!",
+    "Point to the door!",
+    "Start to snore!",
+    "Give a roar!",
+    "Swim to shore!"
+  ];
 
   // Dot cards for the bear game
   const dotCards = useMemo(() => [
@@ -34,6 +44,17 @@ const CountingActivity11 = () => {
 
   // Parking lot spots
   const parkingSpots = [1, 2, 3];
+
+  const handleTouchFloor = () => {
+    setTouchFloorStep((prev) => {
+      if (prev < touchFloorActions.length - 1) {
+        return prev + 1;
+      } else {
+        setCurrentStep('parking');
+        return 0;
+      }
+    });
+  };
 
   const handleParkCar = (spot: number) => {
     if (parkedCars.includes(spot)) {
@@ -283,6 +304,71 @@ const CountingActivity11 = () => {
           </div>
         ) : (
           <div className="space-y-6">
+            {/* Warm-up Activities */}
+            {currentStep === 'warmup' && (
+              <>
+                {/* Dot Path Parking Lot */}
+                <Card className="p-6 bg-green-50 border-2 border-green-200">
+                  <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+                    <Car className="w-6 h-6" />
+                    Dot Path Parking Lot Warm-up
+                  </h3>
+                  <p className="text-gray-700 mb-4">
+                    Let's practice parking cars on dot paths! Each car gets its own space, just like in a real parking lot.
+                  </p>
+                  
+                  <div className="bg-white p-6 rounded-lg border-2 border-gray-300 mb-4">
+                    <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+                      {[1, 2, 3].map(spot => (
+                        <div
+                          key={spot}
+                          className="text-center p-4 border-2 border-gray-400 rounded-lg bg-gray-50"
+                        >
+                          <div className="text-2xl font-bold text-gray-700 mb-2">●</div>
+                          <div className="h-12 flex items-center justify-center">
+                            <div className="text-2xl">🚗</div>
+                          </div>
+                          <div className="text-sm text-gray-600">Space {spot}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="text-sm text-gray-600 text-center mb-4">
+                    "One car, one space!" - Just like each student has their own chair!
+                  </p>
+
+                  <Button onClick={() => setCurrentStep('parking')} className="w-full">
+                    Ready to Play Parking Lot Game!
+                  </Button>
+                </Card>
+
+                {/* 1, 2, 3, 4, Touch the Floor */}
+                <Card className="p-6 bg-blue-50 border-2 border-blue-200 text-center">
+                  <h3 className="text-xl font-bold mb-4 text-gray-800">
+                    1, 2, 3, 4, Touch the Floor!
+                  </h3>
+                  
+                  <div className="bg-white p-6 rounded-lg border-2 border-blue-300 mb-4">
+                    <div className="text-4xl font-bold text-blue-700 mb-4">
+                      1, 2, 3, 4
+                    </div>
+                    <div className="text-2xl font-bold text-red-600 animate-bounce">
+                      {touchFloorActions[touchFloorStep]}
+                    </div>
+                  </div>
+
+                  <p className="text-sm text-gray-600 mb-4">
+                    Let's count together and do the actions! Get ready to move!
+                  </p>
+
+                  <Button onClick={handleTouchFloor} className="bg-red-600 hover:bg-red-700">
+                    {touchFloorStep === 0 ? 'Start Counting!' : 'Next Action!'}
+                  </Button>
+                </Card>
+              </>
+            )}
+
             {/* Parking Lot Game */}
             {currentStep === 'parking' && (
               <>
