@@ -19,6 +19,7 @@ const SortingActivity7 = lazy(() => import("./pages/SortingActivity7"));
 const CountingActivity8 = lazy(() => import("./pages/CountingActivity8"));
 const CountingActivity9 = lazy(() => import("./pages/CountingActivity9"));
 const CountingActivity10 = lazy(() => import("./pages/CountingActivity10"));
+const CountingActivity11 = lazy(() => import("./pages/CountingActivity11"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
