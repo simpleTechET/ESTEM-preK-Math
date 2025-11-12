@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "sonner";
+import { shuffleArray } from "@/lib/utils";
 
 interface MatchingGameProps {
   items: {
@@ -15,7 +16,7 @@ interface MatchingGameProps {
 
 const MatchingGame = ({ items, onComplete }: MatchingGameProps) => {
   const shuffledItems = useMemo(() => {
-    return [...items].sort(() => Math.random() - 0.5);
+    return shuffleArray(items);
   }, [items]);
   
   const [selectedItems, setSelectedItems] = useState<number[]>([]);

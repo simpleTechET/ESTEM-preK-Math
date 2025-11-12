@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Star, BookOpen, Users, Lightbulb, CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { shuffleArray } from "@/lib/utils";
 
 // Import images - crayons and markers
 import redCrayonImg from "@/assets/crayon-red.png";
@@ -26,14 +27,15 @@ const SortingActivity6 = () => {
   const [draggedItem, setDraggedItem] = useState<SortingItem | null>(null);
   const [crayonGroup, setCrayonGroup] = useState<SortingItem[]>([]);
   const [markerGroup, setMarkerGroup] = useState<SortingItem[]>([]);
-  const [unsortedItems, setUnsortedItems] = useState<SortingItem[]>([
+  const initialItems = useMemo(() => shuffleArray([
     { id: 1, name: "Red Crayon", image: redCrayonImg, group: "crayons" as const },
     { id: 2, name: "Yellow Marker", image: yellowMarkerImg, group: "markers" as const },
     { id: 3, name: "Blue Crayon", image: blueCrayonImg, group: "crayons" as const },
     { id: 4, name: "Orange Marker", image: orangeMarkerImg, group: "markers" as const },
     { id: 5, name: "Purple Marker", image: purpleMarkerImg, group: "markers" as const },
     { id: 6, name: "Green Crayon", image: greenCrayonImg, group: "crayons" as const },
-  ].sort(() => Math.random() - 0.5));
+  ]), []);
+  const [unsortedItems, setUnsortedItems] = useState<SortingItem[]>(initialItems);
 
   const handleItemClick = (item: SortingItem) => {
     if (!draggedItem) {

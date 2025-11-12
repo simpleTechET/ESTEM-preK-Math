@@ -121,6 +121,64 @@ const Activities = () => {
           </div>
         </section>
 
+        {/* Topic C: Counting */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-warning to-primary flex items-center justify-center">
+              <span className="text-2xl">🔢</span>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-foreground">Topic C: Counting</h2>
+              <p className="text-muted-foreground">Learn to count objects up to 3</p>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {countingLessons.map((lesson) => (
+              lesson.path ? (
+                <Link to={lesson.path} key={lesson.id}>
+                  <Card className="h-full hover:shadow-playful transition-all duration-300 hover:scale-105 cursor-pointer border-2 hover:border-primary">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                          Lesson {lesson.id}
+                        </span>
+                        <Play className="w-5 h-5 text-success" />
+                      </div>
+                      <CardTitle className="text-lg">{lesson.title}</CardTitle>
+                      <CardDescription className="text-sm">{lesson.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center gap-2">
+                        <span className="text-3xl">{lesson.icon}</span>
+                        <span className="text-sm text-muted-foreground">{lesson.duration}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ) : (
+                <Card key={lesson.id} className="opacity-60 cursor-not-allowed">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold text-muted-foreground bg-muted px-3 py-1 rounded-full">
+                        Lesson {lesson.id}
+                      </span>
+                      <Lock className="w-5 h-5 text-muted-foreground" />
+                    </div>
+                    <CardTitle className="text-lg text-muted-foreground">{lesson.title}</CardTitle>
+                    <CardDescription className="text-sm">{lesson.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl">{lesson.icon}</span>
+                      <span className="text-sm text-muted-foreground">{lesson.duration}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            ))}
+          </div>
+        </section>
+
         {/* Coming Soon Section */}
         <section>
           <Card className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-dashed">
@@ -203,6 +261,18 @@ const sortingLessons = [
     icon: "🔄",
     duration: "12 min",
     path: "/activity/sorting-7",
+    unlocked: true
+  }
+];
+
+const countingLessons = [
+  {
+    id: 8,
+    title: "Count Up to 3",
+    description: "Touch and count objects up to 3",
+    icon: "🐻",
+    duration: "15 min",
+    path: "/activity/counting-8",
     unlocked: true
   }
 ];

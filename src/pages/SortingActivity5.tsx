@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Star, BookOpen, Users, Lightbulb } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import SortingGame from "@/components/SortingGame";
+import { shuffleArray } from "@/lib/utils";
 
 // Import images
 import appleImg from "@/assets/apple.png";
@@ -20,7 +21,7 @@ const SortingActivity5 = () => {
   const navigate = useNavigate();
 
   // Shuffled items - some are food, some are not
-  const items = [
+  const items = useMemo(() => shuffleArray([
     { id: 1, name: "Apple", image: appleImg, belongsToGroup: true },
     { id: 2, name: "Cup", image: cupImg, belongsToGroup: false },
     { id: 3, name: "Banana", image: bananaImg, belongsToGroup: true },
@@ -29,7 +30,7 @@ const SortingActivity5 = () => {
     { id: 6, name: "Paper", image: paperImg, belongsToGroup: false },
     { id: 7, name: "Sock", image: sockImg, belongsToGroup: false },
     { id: 8, name: "Shoe", image: shoeImg, belongsToGroup: false },
-  ].sort(() => Math.random() - 0.5);
+  ]), []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4">

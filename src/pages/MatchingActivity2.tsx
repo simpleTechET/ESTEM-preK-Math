@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import MatchingGame from "@/components/MatchingGame";
+import { shuffleArray } from "@/lib/utils";
 import ballSmall from "@/assets/ball-red-small.png";
 import ballLarge from "@/assets/ball-red-large.png";
 import bearSmall from "@/assets/bear-blue-small.png";
@@ -25,7 +26,7 @@ const MatchingActivity2 = () => {
   ];
 
   const shuffledGameItems = useMemo(() => {
-    return [...gameItems].sort(() => Math.random() - 0.5);
+    return shuffleArray(gameItems);
   }, []);
 
   const handleComplete = () => {
