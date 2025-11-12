@@ -292,7 +292,16 @@ const countingLessons = [
     duration: "12 min",
     path: "/activity/counting-10",
     unlocked: true
-  }
+  },
+  {
+  id: 11,
+  title: "Counting Games",
+  description: "Play games with counting and moving",
+  icon: "🎮",
+  duration: "12 min",
+  path: "/activity/counting-11",
+  unlocked: true
+}
 ];
 
 export default Activities;
