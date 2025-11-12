@@ -283,6 +283,15 @@ const countingLessons = [
     duration: "15 min",
     path: "/activity/counting-9",
     unlocked: true
+  },
+  {
+    id: 10,
+    title: "Lines & Scattered Groups",
+    description: "Count objects in different arrangements",
+    icon: "👁️",
+    duration: "12 min",
+    path: "/activity/counting-10",
+    unlocked: true
   }
 ];
 
