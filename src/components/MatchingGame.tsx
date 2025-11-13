@@ -10,6 +10,7 @@ interface MatchingGameProps {
     id: number;
     image: string;
     matchId: number | string;
+    size?: string;
   }[];
   onComplete?: () => void;
 }
@@ -98,7 +99,9 @@ const MatchingGame = ({ items, onComplete }: MatchingGameProps) => {
               <img 
                 src={item.image} 
                 alt="Match item" 
-                className="w-full h-full object-contain"
+                className={`object-contain transition-all ${
+                  item.size === 'large' ? 'w-36 h-36' : item.size === 'small' ? 'w-20 h-20' : 'w-full h-full'
+                }`}
               />
             </div>
             {isMatched(item.id) && (
