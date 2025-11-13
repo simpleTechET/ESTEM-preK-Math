@@ -19,11 +19,11 @@ const SortingActivity7 = () => {
   // Bears that can be sorted by color OR size
   const bears = [
     { id: 1, name: "Big Blue Bear", image: bearBlueLarge, color: "blue", size: "big" },
-    { id: 2, name: "Big Blue Bear", image: bearBlueLarge, color: "blue", size: "big" },
-    { id: 3, name: "Small Blue Bear", image: bearBlueSmall, color: "blue", size: "small" },
+    { id: 2, name: "Big Red Bear", image: bearRedLarge, color: "red", size: "big" },
+    { id: 3, name: "Big Blue Bear", image: bearBlueLarge, color: "blue", size: "big" },
     { id: 4, name: "Big Red Bear", image: bearRedLarge, color: "red", size: "big" },
-    { id: 5, name: "Big Red Bear", image: bearRedLarge, color: "red", size: "big" },
-    { id: 6, name: "Small Red Bear", image: bearRedSmall, color: "red", size: "small" },
+    { id: 5, name: "Small Red Bear", image: bearRedSmall, color: "red", size: "small" },
+    { id: 6, name: "Small Blue Bear", image: bearBlueSmall, color: "blue", size: "small" },
   ];
 
   const handleItemClick = (bear: typeof bears[0]) => {
