@@ -19,7 +19,11 @@ const CountingActivity11 = () => {
   const [gamePositions, setGamePositions] = useState<GamePosition>({ player1: 0, player2: 0 });
   const [parkedCars, setParkedCars] = useState<number[]>([]);
   const [touchFloorStep, setTouchFloorStep] = useState(0);
-
+  const [unparkedCars] = useState([
+    { id: 1, emoji: "🚗", color: "red" },
+    { id: 2, emoji: "🚙", color: "blue" },
+    { id: 3, emoji: "🚕", color: "yellow" },
+  ]);
   // Touch the floor actions
   const touchFloorActions = [
     "Touch the floor!",
