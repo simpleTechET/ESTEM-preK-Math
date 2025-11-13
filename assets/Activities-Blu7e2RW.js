@@ -1,4 +1,4 @@
-import{j as e}from"./ui-vendor-C-ksHByf.js";import{L as n}from"./react-vendor-X0Zsz5kA.js";import{B as m,C as s,a as r,b as a,c,d as i}from"./card-mFN_FCo8.js";import{A as x}from"./arrow-left-BDiWQ2Ty.js";import{c as l}from"./index-DkJOwXXZ.js";/**
+import{j as e}from"./ui-vendor-C-ksHByf.js";import{L as n}from"./react-vendor-X0Zsz5kA.js";import{B as m,C as s,a as r,b as a,c,d as i}from"./card-C2sjd5Dg.js";import{A as x}from"./arrow-left-Bo7OPdGr.js";import{c as l}from"./index-B6tEu5jo.js";/**
  * @license lucide-react v0.462.0 - ISC
  *
  * This source code is licensed under the ISC license.
