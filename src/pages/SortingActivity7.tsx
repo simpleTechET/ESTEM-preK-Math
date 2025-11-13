@@ -238,7 +238,7 @@ const SortingActivity7 = () => {
                       <img 
                         src={bear.image} 
                         alt={bear.name}
-                        className={`object-contain transition-all ${bear.size === 'big' ? 'w-36 h-36' : 'w-20 h-20'}`}
+                        className={`object-contain transition-all ${bear.size === 'big' ? 'w-36 h-36' : 'w-24 h-24'}`}
                       />
                     </div>
                     {isComplete && isCorrect && (
