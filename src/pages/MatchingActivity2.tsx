@@ -17,12 +17,12 @@ const MatchingActivity2 = () => {
   const navigate = useNavigate();
 
   const gameItems = [
-    { id: 1, image: ballSmall, matchId: "ball" },
-    { id: 2, image: ballLarge, matchId: "ball" },
-    { id: 3, image: bearSmall, matchId: "bear" },
-    { id: 4, image: bearLarge, matchId: "bear" },
-    { id: 5, image: duckSmall, matchId: "duck" },
-    { id: 6, image: duckLarge, matchId: "duck" },
+    { id: 1, image: ballSmall, matchId: "ball", size: "small" },
+    { id: 2, image: ballLarge, matchId: "ball", size: "large" },
+    { id: 3, image: bearSmall, matchId: "bear", size: "small" },
+    { id: 4, image: bearLarge, matchId: "bear", size: "large" },
+    { id: 5, image: duckSmall, matchId: "duck", size: "small" },
+    { id: 6, image: duckLarge, matchId: "duck", size: "large" },
   ];
 
   const shuffledGameItems = useMemo(() => {
