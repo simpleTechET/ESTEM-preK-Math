@@ -13,7 +13,7 @@ const Home = () => {
           <div className="flex items-center gap-3">
             <img src={estemLogo} alt="ESTEM Logo - Knowledge Tap" className="w-12 h-12" />
             <div>
-              <h1 className="text-2xl font-bold text-foreground">ESTEM Math</h1>
+              <h1 className="text-2xl font-bold text-foreground">EthioSTEM Math</h1>
               <p className="text-sm text-muted-foreground">Ethiopian STEM Academy</p>
             </div>
           </div>
