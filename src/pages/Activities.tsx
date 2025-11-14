@@ -310,6 +310,15 @@ const countingLessons = [
   duration: "12 min",
   path: "/activity/counting-12",
   unlocked: true
+},
+  {
+  id: 13,
+  title: "Make Groups & Match Numbers",
+  description: "Create groups and match to numerals 1-3",
+  icon: "🎲",
+  duration: "12 min",
+  path: "/activity/counting-13",
+  unlocked: true
 }
 ];
 
