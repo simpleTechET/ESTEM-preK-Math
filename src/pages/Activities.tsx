@@ -319,6 +319,15 @@ const countingLessons = [
   duration: "12 min",
   path: "/activity/counting-13",
   unlocked: true
+},
+  {
+  id: 14,
+  title: "Numbers to Objects",
+  description: "Count objects to match numerals 1-3",
+  icon: "🧊",
+  duration: "12 min",
+  path: "/activity/counting-14",
+  unlocked: true
 }
 ];
 
