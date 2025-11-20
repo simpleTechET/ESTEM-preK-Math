@@ -5,38 +5,38 @@ import { BookOpen, Sparkles, Users, Target, ArrowRight, CheckCircle2, Lock } fro
 
 const Homepage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-muted">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-pink-600/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5" />
         <div className="container mx-auto px-4 py-20 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border-2 border-purple-200">
-              <Sparkles className="w-4 h-4 text-purple-600" />
-              <span className="text-sm font-semibold text-purple-700">Welcome to EthioSTEM Learning</span>
+            <div className="inline-flex items-center gap-2 bg-card/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border-2 border-primary/20">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-primary">Welcome to EthioSTEM Learning</span>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
               Interactive Learning for
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">
                 Young Minds
               </span>
             </h1>
             
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Building strong foundations in mathematics and science through engaging, 
               research-based curriculum designed for Ethiopian children.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/activities">
-                <Button size="lg" className="text-lg px-8 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg">
+                <Button size="lg" className="text-lg px-8 py-6 bg-primary hover:bg-primary/90 shadow-playful">
                   Start Learning
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
               <Link to="/parent-guide">
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2">
+                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 hover:bg-accent">
                   Parent Guide
                   <BookOpen className="w-5 h-5 ml-2" />
                 </Button>
@@ -47,23 +47,23 @@ const Homepage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white/50 backdrop-blur-sm border-y border-gray-200">
+      <section className="py-16 bg-card/50 backdrop-blur-sm border-y border-border/50">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">Pre-K</div>
-              <div className="text-gray-600">Math Module 1</div>
-              <div className="text-sm text-gray-500 mt-1">Available Now</div>
+              <div className="text-4xl font-bold text-primary mb-2">Pre-K</div>
+              <div className="text-muted-foreground">Math Module 1</div>
+              <div className="text-sm text-muted-foreground/70 mt-1">Available Now</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-2">14</div>
-              <div className="text-gray-600">Interactive Lessons</div>
-              <div className="text-sm text-gray-500 mt-1">Counting to 5</div>
+              <div className="text-4xl font-bold text-secondary mb-2">14</div>
+              <div className="text-muted-foreground">Interactive Lessons</div>
+              <div className="text-sm text-muted-foreground/70 mt-1">Counting to 5</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-pink-600 mb-2">100%</div>
-              <div className="text-gray-600">Free & Open</div>
-              <div className="text-sm text-gray-500 mt-1">Always Free</div>
+              <div className="text-4xl font-bold text-success mb-2">100%</div>
+              <div className="text-muted-foreground">Free & Open</div>
+              <div className="text-sm text-muted-foreground/70 mt-1">Always Free</div>
             </div>
           </div>
         </div>
@@ -73,39 +73,39 @@ const Homepage = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Learning Modules</h2>
-            <p className="text-xl text-gray-600">Choose your learning journey</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4">Learning Modules</h2>
+            <p className="text-xl text-muted-foreground">Choose your learning journey</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {/* Module 1 - Available */}
-            <Card className="border-2 border-blue-200 hover:border-blue-400 hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <Card className="border-2 border-primary/20 hover:border-primary hover:shadow-playful transition-all duration-300 hover:scale-105">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
+                  <span className="text-sm font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
                     Available Now
                   </span>
-                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                  <CheckCircle2 className="w-6 h-6 text-success" />
                 </div>
                 <CardTitle className="text-2xl">Pre-K Math: Module 1</CardTitle>
                 <CardDescription>Counting to 5</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-2 text-sm text-gray-600">
-                    <Target className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <Target className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
                     <span>Master counting, matching, and sorting skills</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-600">
-                    <Users className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <Users className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
                     <span>14 interactive lessons with engaging activities</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-600">
-                    <BookOpen className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <BookOpen className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
                     <span>Based on Eureka Math curriculum</span>
                   </div>
                   <Link to="/activities" className="block">
-                    <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700">
+                    <Button className="w-full mt-4 bg-primary hover:bg-primary/90">
                       Start Module 1
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -115,32 +115,32 @@ const Homepage = () => {
             </Card>
 
             {/* Module 2 - Coming Soon */}
-            <Card className="border-2 border-gray-200 opacity-75">
+            <Card className="border-2 border-border opacity-75">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                  <span className="text-sm font-semibold text-muted-foreground bg-muted px-3 py-1 rounded-full">
                     Coming Soon
                   </span>
-                  <Lock className="w-6 h-6 text-gray-400" />
+                  <Lock className="w-6 h-6 text-muted-foreground" />
                 </div>
-                <CardTitle className="text-2xl text-gray-700">Pre-K Math: Module 2</CardTitle>
+                <CardTitle className="text-2xl text-muted-foreground">Pre-K Math: Module 2</CardTitle>
                 <CardDescription>Shapes and Spatial Relationships</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-2 text-sm text-gray-500">
-                    <Target className="w-4 h-4 text-gray-400 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <Target className="w-4 h-4 text-muted-foreground/50 mt-1 flex-shrink-0" />
                     <span>Explore 2D and 3D shapes</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-500">
-                    <Users className="w-4 h-4 text-gray-400 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <Users className="w-4 h-4 text-muted-foreground/50 mt-1 flex-shrink-0" />
                     <span>Learn spatial vocabulary</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-500">
-                    <BookOpen className="w-4 h-4 text-gray-400 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <BookOpen className="w-4 h-4 text-muted-foreground/50 mt-1 flex-shrink-0" />
                     <span>Hands-on geometry activities</span>
                   </div>
-                  <Button disabled className="w-full mt-4 bg-gray-300 cursor-not-allowed">
+                  <Button disabled className="w-full mt-4 bg-muted cursor-not-allowed">
                     Coming 2025
                   </Button>
                 </div>
@@ -148,32 +148,32 @@ const Homepage = () => {
             </Card>
 
             {/* Module 3 - Coming Soon */}
-            <Card className="border-2 border-gray-200 opacity-75">
+            <Card className="border-2 border-border opacity-75">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                  <span className="text-sm font-semibold text-muted-foreground bg-muted px-3 py-1 rounded-full">
                     Coming Soon
                   </span>
-                  <Lock className="w-6 h-6 text-gray-400" />
+                  <Lock className="w-6 h-6 text-muted-foreground" />
                 </div>
-                <CardTitle className="text-2xl text-gray-700">Pre-K Math: Module 3</CardTitle>
+                <CardTitle className="text-2xl text-muted-foreground">Pre-K Math: Module 3</CardTitle>
                 <CardDescription>Counting to 10</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-2 text-sm text-gray-500">
-                    <Target className="w-4 h-4 text-gray-400 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <Target className="w-4 h-4 text-muted-foreground/50 mt-1 flex-shrink-0" />
                     <span>Count and write numbers 6-10</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-500">
-                    <Users className="w-4 h-4 text-gray-400 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <Users className="w-4 h-4 text-muted-foreground/50 mt-1 flex-shrink-0" />
                     <span>Compare quantities and order numbers</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm text-gray-500">
-                    <BookOpen className="w-4 h-4 text-gray-400 mt-1 flex-shrink-0" />
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <BookOpen className="w-4 h-4 text-muted-foreground/50 mt-1 flex-shrink-0" />
                     <span>Build number sense to 10</span>
                   </div>
-                  <Button disabled className="w-full mt-4 bg-gray-300 cursor-not-allowed">
+                  <Button disabled className="w-full mt-4 bg-muted cursor-not-allowed">
                     Coming 2025
                   </Button>
                 </div>
@@ -184,65 +184,65 @@ const Homepage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-br from-purple-50 to-blue-50">
+      <section className="py-20 bg-secondary/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why EthioSTEM?</h2>
-            <p className="text-xl text-gray-600">Research-based learning that works</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4">Why EthioSTEM?</h2>
+            <p className="text-xl text-muted-foreground">Research-based learning that works</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            <Card className="text-center border-2 hover:shadow-lg transition-all">
+            <Card className="text-center border-2 hover:shadow-playful transition-all">
               <CardHeader>
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">🎯</span>
                 </div>
                 <CardTitle className="text-lg">Research-Based</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Curriculum based on proven Eureka Math methodology
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center border-2 hover:shadow-lg transition-all">
+            <Card className="text-center border-2 hover:shadow-playful transition-all">
               <CardHeader>
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">🎮</span>
                 </div>
                 <CardTitle className="text-lg">Interactive</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Engaging games and activities that make learning fun
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center border-2 hover:shadow-lg transition-all">
+            <Card className="text-center border-2 hover:shadow-playful transition-all">
               <CardHeader>
-                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">👨‍👩‍👧</span>
                 </div>
                 <CardTitle className="text-lg">Parent Support</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Comprehensive guides to help parents support learning
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center border-2 hover:shadow-lg transition-all">
+            <Card className="text-center border-2 hover:shadow-playful transition-all">
               <CardHeader>
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">📱</span>
                 </div>
                 <CardTitle className="text-lg">Accessible</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Works on any device - computer, tablet, or phone
                 </p>
               </CardContent>
