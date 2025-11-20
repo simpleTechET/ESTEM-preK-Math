@@ -2,11 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // Removed unused Router import
 import { lazy, Suspense } from "react";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 // Lazy load route components for better performance
-const Home = lazy(() => import("./pages/Home"));
+const Homepage = lazy(() => import("./pages/Homepage"));
 const Activities = lazy(() => import("./pages/Activities"));
 const ParentGuide = lazy(() => import("./pages/ParentGuide"));
 const TopicMatching = lazy(() => import("./pages/TopicMatching"));
@@ -27,6 +28,9 @@ const CountingActivity11 = lazy(() => import("./pages/CountingActivity11"));
 const CountingActivity12 = lazy(() => import("./pages/CountingActivity12"));
 const CountingActivity13 = lazy(() => import("./pages/CountingActivity13"));
 const CountingActivity14 = lazy(() => import("./pages/CountingActivity14"));
+const SignUp = lazy(() => import("./pages/SignUp")); // Add this
+const SignIn = lazy(() => import("./pages/SignIn")); // Add this
+const Dashboard = lazy(() => import("./pages/Dashboard")); // Add this
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -36,12 +40,14 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+  <AuthProvider>
       <BrowserRouter basename="/EthioSTEM-preK-Math">
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>}>
+        {/* return ( */}
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="/activities" element={<Activities />} />
             <Route path="/parent-guide" element={<ParentGuide />} />
             <Route path="/topic/matching" element={<TopicMatching />} />
@@ -63,10 +69,11 @@ const App = () => (
             <Route path="/activity/counting-13" element={<CountingActivity13 />} />
             <Route path="/activity/counting-14" element={<CountingActivity14 />} />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
