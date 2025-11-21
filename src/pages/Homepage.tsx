@@ -6,11 +6,46 @@ import { BookOpen, Sparkles, Users, Target, ArrowRight, CheckCircle2, Lock } fro
 const Homepage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-muted">
+      {/* Header with Logo */}
+      <header className="border-b border-border/50 bg-card/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <img 
+                src="/EthioSTEM-preK-Math/logo.png" 
+                alt="Ethiopian STEM Academy" 
+                className="w-12 h-12 object-contain"
+              />
+              <div>
+                <h1 className="text-xl font-bold text-foreground">EthioSTEM Learning</h1>
+                <p className="text-xs text-muted-foreground">Ethiopian STEM Academy</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Link to="/activities">
+                <Button variant="ghost" size="sm">Activities</Button>
+              </Link>
+              <Link to="/parent-guide">
+                <Button variant="ghost" size="sm">Parent Guide</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5" />
         <div className="container mx-auto px-4 py-20 relative">
           <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-8">
+              <img 
+                src="/EthioSTEM-preK-Math/logo.png" 
+                alt="Ethiopian STEM Academy" 
+                className="w-32 h-32 mx-auto object-contain mb-4"
+              />
+            </div>
+            
             <div className="inline-flex items-center gap-2 bg-card/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border-2 border-primary/20">
               <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-sm font-semibold text-primary">Welcome to EthioSTEM Learning</span>
@@ -254,21 +289,21 @@ const Homepage = () => {
       {/* CTA Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <Card className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 text-white max-w-4xl mx-auto">
+          <Card className="bg-gradient-to-r from-primary to-secondary border-0 text-white max-w-4xl mx-auto">
             <CardContent className="text-center py-16 px-6">
               <h2 className="text-4xl font-bold mb-4">Ready to Start Learning?</h2>
-              <p className="text-xl mb-8 text-blue-50">
+              <p className="text-xl mb-8 text-primary-foreground/80">
                 Join thousands of Ethiopian families building strong foundations in math
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/activities">
-                  <Button size="lg" className="text-lg px-8 py-6 bg-white text-blue-600 hover:bg-gray-100">
+                  <Button size="lg" className="text-lg px-8 py-6 bg-background text-foreground hover:bg-background/90">
                     Begin Module 1
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
                 <Link to="/parent-guide">
-                  <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 border-white text-white hover:bg-white/10">
+                  <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 border-background text-background hover:bg-background/10">
                     Learn More
                   </Button>
                 </Link>
@@ -279,35 +314,42 @@ const Homepage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12">
+      <footer className="bg-card/80 backdrop-blur-sm text-muted-foreground py-12 border-t border-border">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-bold text-white mb-4">EthioSTEM</h3>
-              <p className="text-sm text-gray-400">
+              <div className="flex items-center gap-3 mb-4">
+                <img 
+                  src="/EthioSTEM-preK-Math/logo.png" 
+                  alt="Ethiopian STEM Academy" 
+                  className="w-10 h-10 object-contain"
+                />
+                <h3 className="text-xl font-bold text-foreground">EthioSTEM</h3>
+              </div>
+              <p className="text-sm">
                 Building the next generation of Ethiopian scientists, engineers, and mathematicians
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Quick Links</h4>
+              <h4 className="font-semibold text-foreground mb-4">Quick Links</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/activities" className="hover:text-white transition-colors">Activities</Link></li>
-                <li><Link to="/parent-guide" className="hover:text-white transition-colors">Parent Guide</Link></li>
-                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><Link to="/activities" className="hover:text-foreground transition-colors">Activities</Link></li>
+                <li><Link to="/parent-guide" className="hover:text-foreground transition-colors">Parent Guide</Link></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Contact</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Resources</h4>
+              <h4 className="font-semibold text-foreground mb-4">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Teaching Tips</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Curriculum Guide</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Support</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Teaching Tips</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Curriculum Guide</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Support</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
+          <div className="border-t border-border mt-8 pt-8 text-center text-sm">
             <p>© 2025 EthioSTEM. All rights reserved. Built with ❤️ for Ethiopian children.</p>
           </div>
         </div>
