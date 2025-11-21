@@ -12,7 +12,7 @@ const Homepage = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img 
-                src="/EthioSTEM-preK-Math/logo.png" 
+                src="/EthioSTEM-preK-Math/logo_notxt.png" 
                 alt="Ethiopian STEM Academy" 
                 className="w-12 h-12 object-contain"
               />
@@ -320,7 +320,7 @@ const Homepage = () => {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <img 
-                  src="/EthioSTEM-preK-Math/logo.png" 
+                  src="/EthioSTEM-preK-Math/logo_notxt.png" 
                   alt="Ethiopian STEM Academy" 
                   className="w-10 h-10 object-contain"
                 />
