@@ -286,35 +286,43 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <Card className="bg-gradient-to-r from-primary to-secondary border-0 text-white max-w-4xl mx-auto">
-            <CardContent className="text-center py-16 px-6">
-              <h2 className="text-4xl font-bold mb-4">Ready to Start Learning?</h2>
-              <p className="text-xl mb-8 text-primary-foreground/80">
-                Join thousands of Ethiopian families building strong foundations in math
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/activities">
-                  <Button size="lg" className="text-lg px-8 py-6 bg-background text-foreground hover:bg-background/90">
-                    Begin Module 1
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </Link>
-                <Link to="/parent-guide">
-                  <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 border-background text-background hover:bg-background/10">
-                    Learn More
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+     {/* CTA Section */}
+<section className="py-20">
+  <div className="container mx-auto px-4">
+    <Card className="bg-gradient-to-r from-primary to-secondary border-0 text-white max-w-4xl mx-auto">
+      <CardContent className="text-center py-16 px-6">
+        <h2 className="text-4xl font-bold mb-4">Ready to Start Learning?</h2>
+        <p className="text-xl mb-8 text-primary-foreground/80">
+          Join thousands of Ethiopian families building strong foundations in math
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link to="/activities">
+            <Button size="lg" className="text-lg px-8 py-6 bg-background text-foreground hover:bg-background/90">
+              Begin Module 1
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </Link>
+          <Link to="/parent-guide">
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 border-background text-background hover:bg-background/10">
+              Learn More
+            </Button>
+          </Link>
         </div>
-        <a href="/premium/signup">
-  <Button>Try Premium ✨</Button>
-</a>
-      </section>
+        
+        {/* Premium CTA */}
+        <div className="mt-8 pt-8 border-t border-background/20">
+          <p className="text-background/80 mb-4">Want personalized AI-powered learning?</p>
+          <Link to="/premium/signup">
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 border-background text-background hover:bg-background/20">
+              <Sparkles className="w-5 h-5 mr-2" />
+              Try Premium (Coming Soon)
+            </Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
+</section>
 
       {/* Footer */}
       <footer className="bg-card/80 backdrop-blur-sm text-muted-foreground py-12 border-t border-border">
