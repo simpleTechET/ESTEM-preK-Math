@@ -19,17 +19,17 @@ export default async function handler(req, res) {
 
   // Create prompts
   const prompts = {
-    encouragement: `Give ${studentName} a short encouraging message: ${context}`,
-    correction: `Gently help ${studentName} understand: ${context}`,
-    celebration: `Celebrate ${studentName}'s success: ${context}`,
-    focus: `Help ${studentName} stay focused: ${context}`
+    encouragement: `Give ${studentName} a short, warm encouraging message about: ${context}. Keep it under 20 words.`,
+    correction: `Gently help ${studentName} learn from this: ${context}. Keep it kind and under 20 words.`,
+    celebration: `Celebrate ${studentName}'s success: ${context}. Be enthusiastic but keep it under 20 words.`,
+    focus: `Help ${studentName} stay focused: ${context}. Be supportive, keep it under 20 words.`
   };
 
   const prompt = prompts[type] || prompts.encouragement;
 
   try {
-    // Call Hugging Face API
-    const response = await fetch('https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium', {
+    // Try Hugging Face first
+    const response = await fetch('https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
@@ -38,37 +38,62 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         inputs: prompt,
         parameters: {
-          max_length: 100,
-          temperature: 0.8
+          max_new_tokens: 50,
+          temperature: 0.7,
+          top_p: 0.9
         }
       })
     });
 
     const result = await response.json();
     
-    let message = `You're doing great, ${studentName}!`;
-    
-    if (Array.isArray(result) && result.length > 0) {
-      message = result[0].generated_text || message;
+    // Check if we got a valid response
+    if (result && result.length > 0 && result[0].generated_text) {
+      const generatedText = result[0].generated_text;
+      
+      res.status(200).json({
+        message: generatedText,
+        studentName
+      });
+      return;
     }
 
-    res.status(200).json({
-      message,
-      studentName
-    });
+    // If API didn't work, use smart fallbacks
+    throw new Error('No valid response from API');
 
   } catch (error) {
-    // Fallback messages
+    // Smart fallback messages based on type and context
     const fallbackMessages = {
-      encouragement: `You're doing great, ${studentName}! Keep trying!`,
-      correction: `That's okay, ${studentName}! Let's try again together.`,
-      celebration: `Amazing work, ${studentName}! You did it!`,
-      focus: `Let's focus, ${studentName}. You can do this!`
+      encouragement: [
+        `Great effort, ${studentName}! Keep trying!`,
+        `You're learning so well, ${studentName}!`,
+        `Nice work, ${studentName}! You're getting better!`
+      ],
+      correction: [
+        `That's okay, ${studentName}. Let's look more carefully at the colors and shapes.`,
+        `Not quite, ${studentName}. Take your time and compare them again!`,
+        `Good try, ${studentName}! Let's see what's different about them.`
+      ],
+      celebration: [
+        `Amazing, ${studentName}! You found the match! 🎉`,
+        `Perfect match, ${studentName}! You're doing great!`,
+        `Wonderful job, ${studentName}! That was exactly right!`
+      ],
+      focus: [
+        `Let's focus, ${studentName}. You can do this!`,
+        `Take a deep breath, ${studentName}. Ready to try again?`,
+        `Stay focused, ${studentName}. Look carefully!`
+      ]
     };
 
+    // Pick a random message from the appropriate type
+    const messages = fallbackMessages[type] || fallbackMessages.encouragement;
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
     res.status(200).json({
-      message: fallbackMessages[type] || `Keep going, ${studentName}!`,
-      error: error.message
+      message: randomMessage,
+      studentName,
+      usingFallback: true
     });
   }
 }
