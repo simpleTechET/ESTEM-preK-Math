@@ -311,6 +311,9 @@ const Homepage = () => {
             </CardContent>
           </Card>
         </div>
+        <a href="/premium/signup">
+  <Button>Try Premium ✨</Button>
+</a>
       </section>
 
       {/* Footer */}
