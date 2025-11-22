@@ -50,9 +50,9 @@ const MatchingGame = ({ items, onComplete }: MatchingGameProps) => {
       if (firstItem?.matchId === secondItem?.matchId) {
         // Match found!
         setMatchedPairs([...matchedPairs, first, second]);
-        toast.success("Great match! 🎉", {
-          description: "You found two that are exactly the same!",
-        });
+        // toast.success("Great match! 🎉", {
+        //   description: "You found two that are exactly the same!",
+        // });
 
         // Show AI companion celebration
         setCompanionContext('The student just matched two objects correctly!');
@@ -70,8 +70,8 @@ const MatchingGame = ({ items, onComplete }: MatchingGameProps) => {
         }, 800);
       } else {
         // No match
-        toast.error("Not quite! Try again 💪", {
-          description: "Look carefully - are they exactly the same?",
+        // toast.error("Not quite! Try again 💪", {
+        //   description: "Look carefully - are they exactly the same?",
         });
 
         // Show AI companion correction
