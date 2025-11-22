@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/companion.py": {
-      "runtime": "python3.9"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/:path*",
