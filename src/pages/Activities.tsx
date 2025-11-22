@@ -221,6 +221,39 @@ const Activities = () => {
             </CardContent>
           </Card>
         </section>
+        {/* Assessment Section */}
+<section className="mb-16">
+  <div className="flex items-center gap-3 mb-6">
+    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-warning flex items-center justify-center">
+      <span className="text-2xl">📋</span>
+    </div>
+    <div>
+      <h2 className="text-2xl font-bold text-foreground">Assessment</h2>
+      <p className="text-muted-foreground">Track student progress and understanding</p>
+    </div>
+  </div>
+  <Link to="/assessment/mid-module-1">
+    <Card className="hover:shadow-playful transition-all duration-300 hover:scale-105 cursor-pointer border-2 hover:border-primary">
+      <CardHeader>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
+            For Teachers/Parents
+          </span>
+        </div>
+        <CardTitle className="text-xl">Mid-Module 1 Assessment</CardTitle>
+        <CardDescription>Evaluate student understanding of Topics A-D</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-2 text-sm text-muted-foreground">
+          <p>• Matching Objects</p>
+          <p>• Sorting</p>
+          <p>• Counting 1-3</p>
+          <p>• Matching Numerals to Quantities</p>
+        </div>
+      </CardContent>
+    </Card>
+  </Link>
+</section>
       </div>
     </div>
   );
