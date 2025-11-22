@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom"; // Removed unused Router import
 import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { PremiumProvider } from '@/contexts/PremiumContext';
 
 // Lazy load route components for better performance
 const Homepage = lazy(() => import("./pages/Homepage"));
@@ -44,6 +45,7 @@ const App = () => (
       <Toaster />
       <Sonner />
   <AuthProvider>
+      <PremiumProvider>
       <BrowserRouter basename="/EthioSTEM-preK-Math">
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -78,6 +80,7 @@ const App = () => (
             </Routes>
           </Suspense>
         </BrowserRouter>
+          </PremiumProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
