@@ -29,10 +29,16 @@ const PremiumSignup = () => {
   };
 
   const handleSubmit = () => {
-    // Here you would send the data to your backend
-    // For now, we'll just move to the complete step
-    setStep('complete');
-  };
+  // Save to localStorage
+  localStorage.setItem('ethiostem-premium', 'true');
+  localStorage.setItem('ethiostem-student-name', studentName);
+  
+  if (previewUrl) {
+    localStorage.setItem('ethiostem-student-photo', previewUrl);
+  }
+  
+  setStep('complete');
+};
 
   if (step === 'features') {
     return (
