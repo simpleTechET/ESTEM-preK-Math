@@ -28,6 +28,7 @@ const CountingActivity11 = lazy(() => import("./pages/CountingActivity11"));
 const CountingActivity12 = lazy(() => import("./pages/CountingActivity12"));
 const CountingActivity13 = lazy(() => import("./pages/CountingActivity13"));
 const CountingActivity14 = lazy(() => import("./pages/CountingActivity14"));
+const MidModuleAssessment = lazy(() => import("./pages/MidModuleAssessment"));
 const SignUp = lazy(() => import("./pages/SignUp")); // Add this
 const SignIn = lazy(() => import("./pages/SignIn")); // Add this
 const Dashboard = lazy(() => import("./pages/Dashboard")); // Add this
@@ -68,6 +69,7 @@ const App = () => (
             <Route path="/activity/counting-12" element={<CountingActivity12 />} />
             <Route path="/activity/counting-13" element={<CountingActivity13 />} />
             <Route path="/activity/counting-14" element={<CountingActivity14 />} />
+            <Route path="/assessment/mid-module-1" element={<MidModuleAssessment />} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
