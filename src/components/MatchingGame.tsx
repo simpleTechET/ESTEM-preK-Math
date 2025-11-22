@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { shuffleArray } from "@/lib/utils";
+import AICompanion from "@/components/AICompanion";
 
 interface MatchingGameProps {
   items: {
@@ -24,6 +25,12 @@ const MatchingGame = ({ items, onComplete }: MatchingGameProps) => {
   const [matchedPairs, setMatchedPairs] = useState<number[]>([]);
   const [attempts, setAttempts] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // AI Companion states
+  const [showCompanion, setShowCompanion] = useState(false);
+  const [companionContext, setCompanionContext] = useState('');
+  const [companionType, setCompanionType] = useState<'encouragement' | 'correction' | 'celebration' | 'focus'>('encouragement');
+  const [studentName] = useState(localStorage.getItem('ethiostem-student-name') || 'Student');
 
   const handleItemClick = (item: typeof shuffledItems[0]) => {
     if (matchedPairs.includes(item.id) || selectedItems.includes(item.id) || isProcessing) {
@@ -46,6 +53,12 @@ const MatchingGame = ({ items, onComplete }: MatchingGameProps) => {
         toast.success("Great match! 🎉", {
           description: "You found two that are exactly the same!",
         });
+
+        // Show AI companion celebration
+        setCompanionContext('The student just matched two objects correctly!');
+        setCompanionType('celebration');
+        setShowCompanion(true);
+        setTimeout(() => setShowCompanion(false), 5000);
         
         setTimeout(() => {
           setSelectedItems([]);
@@ -60,6 +73,13 @@ const MatchingGame = ({ items, onComplete }: MatchingGameProps) => {
         toast.error("Not quite! Try again 💪", {
           description: "Look carefully - are they exactly the same?",
         });
+
+        // Show AI companion correction
+        setCompanionContext('The student tried to match objects but they were different. Encourage them to look more carefully at the colors, shapes, and sizes.');
+        setCompanionType('correction');
+        setShowCompanion(true);
+        setTimeout(() => setShowCompanion(false), 5000);
+
         setTimeout(() => {
           setSelectedItems([]);
           setIsProcessing(false);
@@ -125,6 +145,15 @@ const MatchingGame = ({ items, onComplete }: MatchingGameProps) => {
           </Button>
         </Card>
       )}
+
+      {/* AI Companion */}
+      <AICompanion
+        studentName={studentName}
+        context={companionContext}
+        type={companionType}
+        show={showCompanion}
+        onClose={() => setShowCompanion(false)}
+      />
     </div>
   );
 };
