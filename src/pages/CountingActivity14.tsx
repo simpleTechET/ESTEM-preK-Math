@@ -520,7 +520,6 @@ const [orderComplete, setOrderComplete] = useState(false);
         </Button>
       )}
     </Card>
-  </>
 )}
 
             {/* Number to Objects Game */}
