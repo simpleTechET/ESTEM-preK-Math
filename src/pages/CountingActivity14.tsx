@@ -373,19 +373,58 @@ const [orderComplete, setOrderComplete] = useState(false);
         {currentOrder === null ? 'Ready to take orders?' : 'Fill the Glass'}
       </h3>
       
-      {currentOrder !== null ? (
-        <>
-          {/* The Glass with Ice Cubes */}
-          <div className="bg-gradient-to-b from-cyan-100 to-cyan-200 p-6 rounded-lg border-4 border-cyan-400 mb-4 min-h-[160px] flex flex-col justify-end items-center">
-            <div className="text-6xl mb-2">
-              {Array(iceCubeCount).fill('🧊').map((cube, index) => (
-                <span key={index} className="inline-block mx-1 animate-bounce">{cube}</span>
-              ))}
-            </div>
-            {iceCubeCount === 0 && (
-              <span className="text-gray-400 text-lg">Empty glass - add ice cubes!</span>
-            )}
-          </div>
+     {/* The Glass with Ice Cubes */}
+<div className="relative w-48 h-64 mx-auto mb-6">
+  {/* Glass container */}
+  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-50/30 to-cyan-100/50 rounded-b-3xl border-4 border-cyan-300 backdrop-blur-sm">
+    {/* Glass shine effect */}
+    <div className="absolute top-4 left-4 w-8 h-16 bg-white/40 rounded-full blur-sm" />
+  </div>
+  
+  {/* Glass rim */}
+  <div className="absolute -top-2 left-0 right-0 h-4 bg-gradient-to-b from-cyan-200 to-transparent rounded-t-lg border-t-4 border-x-4 border-cyan-300" />
+  
+  {/* Ice cubes inside glass */}
+  <div className="absolute bottom-4 left-0 right-0 flex flex-wrap justify-center items-end gap-2 px-4 pb-2">
+    {Array(iceCubeCount).fill('🧊').map((cube, index) => (
+      <span 
+        key={index} 
+        className="text-4xl drop-shadow-lg animate-bounce inline-block"
+        style={{ 
+          animationDelay: `${index * 100}ms`,
+          animationDuration: '0.6s'
+        }}
+      >
+        {cube}
+      </span>
+    ))}
+    {iceCubeCount === 0 && (
+      <span className="text-gray-400 text-sm absolute bottom-8">Empty glass</span>
+    )}
+  </div>
+  
+  {/* Water/liquid level (optional - shows when ice is added) */}
+  {iceCubeCount > 0 && (
+    <div 
+      className="absolute bottom-0 left-0 right-0 bg-cyan-200/40 rounded-b-3xl transition-all duration-500"
+      style={{ 
+        height: `${Math.min(iceCubeCount * 25, 80)}%`,
+        borderLeft: '4px solid #67e8f9',
+        borderRight: '4px solid #67e8f9',
+        borderBottom: '4px solid #67e8f9'
+      }}
+    />
+  )}
+</div>
+
+{/* Counter Display */}
+<div className="bg-gray-100 p-4 rounded-lg border-2 border-gray-300 mb-4 text-center">
+  <p className="text-sm text-gray-600 mb-2">Ice cubes in glass:</p>
+  <div className="text-3xl font-bold text-cyan-700">{iceCubeCount}</div>
+  <p className="text-xs text-gray-500 mt-2">
+    Target: {iceCubeOrders[currentOrder]} ice cube{iceCubeOrders[currentOrder] > 1 ? 's' : ''}
+  </p>
+</div>
 
           {/* Counter Display */}
           <div className="bg-gray-100 p-4 rounded-lg border-2 border-gray-300 mb-4 text-center">
