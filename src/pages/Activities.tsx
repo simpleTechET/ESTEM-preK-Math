@@ -407,7 +407,8 @@ const countingLessons = [
       "Count up to 5 objects in scattered configurations",
       "Count up to 5 objects in linear configurations",
       "Understand that quantity stays the same when objects are rearranged"
-    ]
+    ],
+         unlocked: true
   }
 ];
 
