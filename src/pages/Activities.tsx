@@ -391,6 +391,23 @@ const countingLessons = [
     duration: "12 min",
     path: "/activity/counting-14",
     unlocked: true
+  },
+   {
+    id: "counting-15",
+    title: "Fishy Friends Counting",
+    topic: "Topic E: How Many Questions with 4 or 5 Objects",
+    standards: ["PK.CC.1", "PK.CC.3ab", "PK.CC.4"],
+    objective: "Arrange and count up to 5 objects in scattered and linear configurations",
+    description: "Help the fish play tag and line up to escape the shark!",
+    icon: "🐠",
+    color: "blue",
+    difficulty: "intermediate",
+    duration: "15-20 min",
+    learningGoals: [
+      "Count up to 5 objects in scattered configurations",
+      "Count up to 5 objects in linear configurations",
+      "Understand that quantity stays the same when objects are rearranged"
+    ]
   }
 ];
 
