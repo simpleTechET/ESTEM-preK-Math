@@ -426,9 +426,9 @@ const countingLessons = [
       "Count objects in pictures",
       "Answer 'how many' questions about groups of 4-5",
       "Connect counting to real-world contexts"
-    ]
-  },
+    ],
     unlocked: true
+  }
 ];
 
 export default Activities;
