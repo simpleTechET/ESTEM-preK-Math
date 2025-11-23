@@ -374,59 +374,117 @@ const CountingActivity11 = () => {
             )}
 
             {/* Parking Lot Game */}
-            {currentStep === 'parking' && (
-              <>
-                <Card className="p-6 bg-green-50 border-2 border-green-200">
-                  <h3 className="text-xl font-bold mb-2 text-gray-800 flex items-center gap-2">
-                    <Car className="w-6 h-6" />
-                    Parking Lot Game
-                  </h3>
-                  <p className="text-gray-700 mb-4">
-                    Park the cars! Each car gets its own numbered space, just like a real parking lot.
-                    Click on a parking spot to park a car there.
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <div className="flex-1 bg-white p-2 rounded border">
-                      Cars parked: {parkedCars.length} of 3
-                    </div>
-                  </div>
-                </Card>
+{currentStep === 'parking' && (
+  <>
+    <Card className="p-6 bg-green-50 border-2 border-green-200">
+      <h3 className="text-xl font-bold mb-2 text-gray-800 flex items-center gap-2">
+        <Car className="w-6 h-6" />
+        Parking Lot Game
+      </h3>
+      <p className="text-gray-700 mb-4">
+        Park the cars! Each car gets its own numbered space. Watch the queue get shorter as you park them!
+      </p>
+      <div className="flex items-center gap-2 text-sm text-gray-600">
+        <div className="flex-1 bg-white p-2 rounded border">
+          Cars parked: {parkedCars.length} of 3
+        </div>
+        <div className="flex-1 bg-white p-2 rounded border">
+          Cars waiting: {3 - parkedCars.length}
+        </div>
+      </div>
+    </Card>
 
-                {/* Parking Lot */}
-                <Card className="p-6 bg-gray-100 border-2 border-gray-300">
-                  <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
-                    {parkingSpots.map(spot => {
-                      const isParked = parkedCars.includes(spot);
-                      return (
-                        <Card
-                          key={spot}
-                          onClick={() => !isParked && handleParkCar(spot)}
-                          className={`
-                            text-center p-4 cursor-pointer transition-all
-                            ${isParked 
-                              ? 'bg-green-100 border-4 border-green-500' 
-                              : 'bg-white hover:bg-green-50 border-2 border-gray-400 hover:border-green-300'
-                            }
-                          `}
-                        >
-                          <div className="text-2xl font-bold text-gray-700 mb-2">
-                            {spot}
-                          </div>
-                          <div className="h-12 flex items-center justify-center">
-                            {isParked ? (
-                              <div className="text-3xl">🚗</div>
-                            ) : (
-                              <div className="text-xl text-gray-400">Empty</div>
-                            )}
-                          </div>
-                          {isParked && <CheckCircle2 className="w-5 h-5 text-green-600 mx-auto mt-2" />}
-                        </Card>
-                      );
-                    })}
+    {/* Cars Waiting to Park (Queue) */}
+    <Card className="p-6 bg-blue-50 border-2 border-blue-200">
+      <h4 className="text-lg font-bold mb-4 text-gray-800 text-center">
+        🚗 Cars Waiting in Queue
+      </h4>
+      <div className="flex justify-center gap-6 min-h-[100px] items-center">
+        {unparkedCars.map((car, index) => {
+          const isParked = index < parkedCars.length;
+          return (
+            <div
+              key={car.id}
+              className={`transition-all duration-500 ${
+                isParked ? 'opacity-20 scale-75' : 'opacity-100 scale-100'
+              }`}
+            >
+              <div className="text-center">
+                <div className="text-6xl mb-2">{car.emoji}</div>
+                <div className={`text-sm font-semibold ${
+                  isParked ? 'text-gray-400 line-through' : 'text-gray-700'
+                }`}>
+                  {car.color} car
+                </div>
+                {isParked && (
+                  <div className="text-xs text-green-600 font-bold mt-1">
+                    ✓ Parked
                   </div>
-                </Card>
-              </>
-            )}
+                )}
+                {!isParked && index === parkedCars.length && (
+                  <div className="text-xs text-blue-600 font-bold mt-1 animate-pulse">
+                    → Next to park
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <p className="text-sm text-gray-600 text-center mt-4">
+        {parkedCars.length === 0 
+          ? "Click any parking spot below to park the first car!" 
+          : parkedCars.length === 3 
+          ? "All cars are parked! 🎉" 
+          : `Click a parking spot to park the ${unparkedCars[parkedCars.length].color} car!`
+        }
+      </p>
+    </Card>
+
+    {/* Parking Lot */}
+    <Card className="p-6 bg-gray-100 border-2 border-gray-300">
+      <h4 className="text-lg font-bold mb-4 text-gray-800 text-center">
+        🅿️ Parking Lot
+      </h4>
+      <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+        {parkingSpots.map(spot => {
+          const spotIndex = parkedCars.indexOf(spot);
+          const isParked = spotIndex !== -1;
+          const carInSpot = isParked ? unparkedCars[spotIndex] : null;
+          
+          return (
+            <Card
+              key={spot}
+              onClick={() => !isParked && handleParkCar(spot)}
+              className={`
+                text-center p-4 cursor-pointer transition-all duration-300
+                ${isParked 
+                  ? 'bg-green-100 border-4 border-green-500' 
+                  : 'bg-white hover:bg-green-50 border-2 border-gray-400 hover:border-green-300 hover:scale-105'
+                }
+              `}
+            >
+              <div className="text-2xl font-bold text-gray-700 mb-2">
+                Spot {spot}
+              </div>
+              <div className="h-16 flex items-center justify-center">
+                {isParked && carInSpot ? (
+                  <div className="animate-bounce">
+                    <div className="text-4xl">{carInSpot.emoji}</div>
+                    <div className="text-xs text-gray-600 mt-1">{carInSpot.color}</div>
+                  </div>
+                ) : (
+                  <div className="text-lg text-gray-400">Empty</div>
+                )}
+              </div>
+              {isParked && <CheckCircle2 className="w-5 h-5 text-green-600 mx-auto mt-2" />}
+            </Card>
+          );
+        })}
+      </div>
+    </Card>
+  </>
+)}
 
             {/* Bear Race Game */}
             {currentStep === 'bearGame' && (
