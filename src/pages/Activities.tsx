@@ -393,7 +393,7 @@ const countingLessons = [
     unlocked: true
   },
    {
-    id: "counting-15",
+    id: 15,
     title: "Fishy Friends Counting",
     topic: "Topic E: How Many Questions with 4 or 5 Objects",
     standards: ["PK.CC.1", "PK.CC.3ab", "PK.CC.4"],
@@ -408,6 +408,7 @@ const countingLessons = [
       "Count up to 5 objects in linear configurations",
       "Understand that quantity stays the same when objects are rearranged"
     ],
+    path: "/activity/counting-15",
          unlocked: true
   }
 ];
