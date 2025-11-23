@@ -409,8 +409,26 @@ const countingLessons = [
       "Understand that quantity stays the same when objects are rearranged"
     ],
     path: "/activity/counting-15",
-         unlocked: true
-  }
+    unlocked: true
+  },
+  {
+    id: 16, 
+    title: "Family Photo Counting",
+    topic: "Topic E: How Many Questions with 4 or 5 Objects",
+    standards: ["PK.CC.1", "PK.CC.3ab", "PK.CC.4"],
+    objective: "Count up to 5 objects in pictorial representations",
+    description: "Count family members in photos and tell how many!",
+    icon: "👨‍👩‍👧‍👦",
+    color: "purple",
+    difficulty: "intermediate",
+    duration: "15-20 min",
+    learningGoals: [
+      "Count objects in pictures",
+      "Answer 'how many' questions about groups of 4-5",
+      "Connect counting to real-world contexts"
+    ]
+  },
+    unlocked: true
 ];
 
 export default Activities;
