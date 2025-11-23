@@ -448,6 +448,25 @@ const countingLessons = [
     ],
     path: "/activity/counting-17",
     unlocked: true
+  },
+  {
+    id: "counting-18",
+    title: "Toy Store Arrays",
+    topic: "Topic E: How Many Questions with 4 or 5 Objects",
+    standards: ["PK.CC.1", "PK.CC.3ab", "PK.CC.4"],
+    objective: "Arrange and count 4 objects in an array configuration",
+    description: "Help organize toys in the toy store display!",
+    icon: "🧸",
+    color: "orange",
+    difficulty: "intermediate", 
+    duration: "15-20 min",
+    learningGoals: [
+      "Count objects in rectangular arrays",
+      "Understand different spatial arrangements",
+      "Find embedded numbers within groups"
+    ],
+     path: "/activity/counting-18",
+    unlocked: true
   }
 ];
 
