@@ -17,6 +17,8 @@ const CountingActivity14 = () => {
   const [jiveStep, setJiveStep] = useState(0);
   const [popUpCount, setPopUpCount] = useState(0);
   const [currentOrder, setCurrentOrder] = useState<number | null>(null);
+  const [iceCubeCount, setIceCubeCount] = useState(0);
+const [orderComplete, setOrderComplete] = useState(false);
 
   // Jive chant actions
   const jiveChant = [
@@ -341,54 +343,146 @@ const CountingActivity14 = () => {
 
             {/* Ice Cube Counting */}
             {currentStep === 'iceCubes' && (
-              <>
-                <Card className="p-6 bg-cyan-50 border-2 border-cyan-200">
-                  <h3 className="text-xl font-bold mb-2 text-gray-800 flex items-center gap-2">
-                    <span className="text-2xl">🧊</span> Ice Cube Restaurant
-                  </h3>
-                  <p className="text-gray-700 mb-4">
-                    You're a restaurant worker! Fill drink orders with exactly the right number of ice cubes.
-                  </p>
-                  
-                  {currentOrder !== null && (
-                    <div className="bg-white p-4 rounded-lg border-2 border-cyan-300 text-center mb-4">
-                      <h4 className="text-lg font-bold text-cyan-700 mb-2">Current Order:</h4>
-                      <div className="text-3xl font-bold text-gray-800">
-                        {iceCubeOrders[currentOrder]} ice cube{iceCubeOrders[currentOrder] > 1 ? 's' : ''}
-                      </div>
-                      <p className="text-sm text-gray-600 mt-2">
-                        Order {currentOrder + 1} of {iceCubeOrders.length}
-                      </p>
-                    </div>
-                  )}
-                </Card>
+  <>
+    <Card className="p-6 bg-cyan-50 border-2 border-cyan-200">
+      <h3 className="text-xl font-bold mb-2 text-gray-800 flex items-center gap-2">
+        <span className="text-2xl">🧊</span> Ice Cube Restaurant
+      </h3>
+      <p className="text-gray-700 mb-4">
+        You're a restaurant worker! A customer orders a drink. Add exactly the right number of ice cubes!
+      </p>
+      
+      {currentOrder !== null && (
+        <div className="bg-white p-4 rounded-lg border-2 border-cyan-300 text-center mb-4">
+          <h4 className="text-lg font-bold text-cyan-700 mb-2">Customer's Order:</h4>
+          <div className="text-5xl font-bold text-gray-800 mb-2">
+            {iceCubeOrders[currentOrder]}
+          </div>
+          <p className="text-sm text-gray-600">
+            "I'd like {iceCubeOrders[currentOrder]} ice cube{iceCubeOrders[currentOrder] > 1 ? 's' : ''} please!"
+          </p>
+          <p className="text-xs text-gray-500 mt-2">
+            Order {currentOrder + 1} of {iceCubeOrders.length}
+          </p>
+        </div>
+      )}
+    </Card>
 
-                <Card className="p-6 bg-white border-2 border-gray-200 text-center">
-                  <div className="text-6xl mb-6 min-h-[120px] flex items-center justify-center">
-                    {currentOrder !== null ? (
-                      Array(iceCubeOrders[currentOrder]).fill('🧊').map((cube, index) => (
-                        <span key={index} className="mx-1">{cube}</span>
-                      ))
-                    ) : (
-                      <span className="text-gray-400">Waiting for orders...</span>
-                    )}
-                  </div>
-
-                  <div className="bg-gray-100 p-4 rounded-lg border-2 border-gray-300 mb-4">
-                    <p className="text-sm text-gray-600">
-                      {currentOrder === null 
-                        ? "Click below to start taking orders!"
-                        : `Customer wants ${iceCubeOrders[currentOrder]} ice cube${iceCubeOrders[currentOrder] > 1 ? 's' : ''} in their drink.`
-                      }
-                    </p>
-                  </div>
-
-                  <Button onClick={handleNextOrder} className="bg-cyan-600 hover:bg-cyan-700">
-                    {currentOrder === null ? 'Start Taking Orders!' : 'Next Order!'}
-                  </Button>
-                </Card>
-              </>
+    <Card className="p-6 bg-white border-2 border-gray-200">
+      <h3 className="text-lg font-bold mb-4 text-gray-800 text-center">
+        {currentOrder === null ? 'Ready to take orders?' : 'Fill the Glass'}
+      </h3>
+      
+      {currentOrder !== null ? (
+        <>
+          {/* The Glass with Ice Cubes */}
+          <div className="bg-gradient-to-b from-cyan-100 to-cyan-200 p-6 rounded-lg border-4 border-cyan-400 mb-4 min-h-[160px] flex flex-col justify-end items-center">
+            <div className="text-6xl mb-2">
+              {Array(iceCubeCount).fill('🧊').map((cube, index) => (
+                <span key={index} className="inline-block mx-1 animate-bounce">{cube}</span>
+              ))}
+            </div>
+            {iceCubeCount === 0 && (
+              <span className="text-gray-400 text-lg">Empty glass - add ice cubes!</span>
             )}
+          </div>
+
+          {/* Counter Display */}
+          <div className="bg-gray-100 p-4 rounded-lg border-2 border-gray-300 mb-4 text-center">
+            <p className="text-sm text-gray-600 mb-2">Ice cubes in glass:</p>
+            <div className="text-3xl font-bold text-cyan-700">{iceCubeCount}</div>
+            <p className="text-xs text-gray-500 mt-2">
+              Target: {iceCubeOrders[currentOrder]} ice cube{iceCubeOrders[currentOrder] > 1 ? 's' : ''}
+            </p>
+          </div>
+
+          {/* Add/Remove Controls */}
+          {!orderComplete && (
+            <div className="flex gap-4 justify-center mb-4">
+              <Button 
+                onClick={() => {
+                  if (iceCubeCount > 0) {
+                    setIceCubeCount(iceCubeCount - 1);
+                  }
+                }}
+                disabled={iceCubeCount === 0}
+                size="lg"
+                className="w-16 h-16 text-2xl"
+              >
+                -
+              </Button>
+              <Button 
+                onClick={() => {
+                  if (iceCubeCount < 5) {
+                    setIceCubeCount(iceCubeCount + 1);
+                  }
+                }}
+                disabled={iceCubeCount >= 5}
+                size="lg"
+                className="w-16 h-16 text-2xl"
+              >
+                +
+              </Button>
+            </div>
+          )}
+
+          {/* Serve Button */}
+          {!orderComplete && (
+            <Button 
+              onClick={() => {
+                if (iceCubeCount === iceCubeOrders[currentOrder]) {
+                  setOrderComplete(true);
+                  toast.success("Perfect! 🎉", { 
+                    description: `You added exactly ${iceCubeCount} ice cube${iceCubeCount > 1 ? 's' : ''}!` 
+                  });
+                } else {
+                  toast.error("Not quite! 🤔", { 
+                    description: `The customer wanted ${iceCubeOrders[currentOrder]}, but you gave them ${iceCubeCount}. Try again!` 
+                  });
+                }
+              }}
+              className="w-full bg-cyan-600 hover:bg-cyan-700"
+              size="lg"
+            >
+              Serve the Drink
+            </Button>
+          )}
+
+          {/* Next Order Button */}
+          {orderComplete && (
+            <Button 
+              onClick={() => {
+                if (currentOrder < iceCubeOrders.length - 1) {
+                  setCurrentOrder(currentOrder + 1);
+                  setIceCubeCount(0);
+                  setOrderComplete(false);
+                } else {
+                  setCurrentStep('numberGroups');
+                }
+              }}
+              className="w-full bg-green-600 hover:bg-green-700"
+              size="lg"
+            >
+              {currentOrder < iceCubeOrders.length - 1 ? 'Next Customer!' : 'Finish Restaurant Game!'}
+            </Button>
+          )}
+        </>
+      ) : (
+        <Button 
+          onClick={() => {
+            setCurrentOrder(0);
+            setIceCubeCount(0);
+            setOrderComplete(false);
+          }}
+          className="w-full bg-cyan-600 hover:bg-cyan-700"
+          size="lg"
+        >
+          Start Taking Orders!
+        </Button>
+      )}
+    </Card>
+  </>
+)}
 
             {/* Number to Objects Game */}
             {currentStep === 'numberGroups' && (
