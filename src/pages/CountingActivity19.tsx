@@ -105,15 +105,27 @@ const IntroductionSection = () => (
 const FluencyPractice = () => {
   const [hiddenObjects, setHiddenObjects] = useState<boolean[]>([false, false, false, false, false]);
   const [chaChaCounts, setChaChaCounts] = useState(0);
+  const [answer, setAnswer] = useState<number | null>(null);
+  const [feedback, setFeedback] = useState<"correct" | "incorrect" | null>(null);
 
   const toggleObject = (index: number) => {
     const newHidden = [...hiddenObjects];
     newHidden[index] = !newHidden[index];
     setHiddenObjects(newHidden);
+    setAnswer(null);
+    setFeedback(null);
   };
 
   const resetPeekaBoo = () => {
     setHiddenObjects([false, false, false, false, false]);
+    setAnswer(null);
+    setFeedback(null);
+  };
+
+  const checkAnswer = (selectedAnswer: number) => {
+    const correctAnswer = hiddenObjects.filter(h => !h).length;
+    setAnswer(selectedAnswer);
+    setFeedback(selectedAnswer === correctAnswer ? "correct" : "incorrect");
   };
 
   const doChaCha = () => {
@@ -150,12 +162,28 @@ const FluencyPractice = () => {
             ))}
           </div>
           <div className="text-center space-y-4">
-            <p className="text-lg">
-              Visible balls: <span className="font-bold text-2xl text-primary">
-                {hiddenObjects.filter(h => !h).length}
-              </span>
-            </p>
-            <Button onClick={resetPeekaBoo} variant="outline">Show All Balls</Button>
+            <p className="text-lg font-semibold mb-4">How many visible balls do you see?</p>
+            <div className="flex justify-center gap-3 mb-4">
+              {[0, 1, 2, 3, 4, 5].map((num) => (
+                <Button
+                  key={num}
+                  onClick={() => checkAnswer(num)}
+                  variant={answer === num ? (feedback === "correct" ? "default" : "destructive") : "outline"}
+                  className="w-16 h-16 text-xl font-bold"
+                  disabled={feedback !== null}
+                >
+                  {num}
+                </Button>
+              ))}
+            </div>
+            {feedback && (
+              <div className={`p-4 rounded-lg ${feedback === "correct" ? "bg-green-500/20 text-green-700 dark:text-green-300" : "bg-red-500/20 text-red-700 dark:text-red-300"}`}>
+                <p className="font-bold text-lg">
+                  {feedback === "correct" ? "✓ Correct! Great job!" : "✗ Try again! Count carefully."}
+                </p>
+              </div>
+            )}
+            <Button onClick={resetPeekaBoo} variant="outline">Reset & Try Again</Button>
           </div>
         </CardContent>
       </Card>
@@ -190,23 +218,69 @@ const FluencyPractice = () => {
 
 const SortingActivity = () => {
   const [sortBy, setSortBy] = useState<"color" | "type" | null>(null);
+  const [userGroups, setUserGroups] = useState<Record<string, string[]>>({});
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null);
 
   const animals = [
-    { name: "Alligator", color: "orange", type: "swim", emoji: "🐊" },
-    { name: "Bird", color: "orange", type: "fly", emoji: "🐦" },
-    { name: "Fish", color: "yellow", type: "swim", emoji: "🐠" },
-    { name: "Bee", color: "yellow", type: "fly", emoji: "🐝" },
-    { name: "Butterfly", color: "yellow", type: "fly", emoji: "🦋" },
+    { name: "Alligator", color: "red", type: "swim", emoji: "🐊", colorName: "Red" },
+    { name: "Bird", color: "blue", type: "fly", emoji: "🐦", colorName: "Blue" },
+    { name: "Fish", color: "yellow", type: "swim", emoji: "🐠", colorName: "Yellow" },
+    { name: "Bee", color: "orange", type: "fly", emoji: "🐝", colorName: "Orange" },
+    { name: "Butterfly", color: "green", type: "fly", emoji: "🦋", colorName: "Green" },
   ];
 
-  const sortedGroups = sortBy
+  const groupLabels = sortBy === "color" 
+    ? { red: "🔴 Red Animals", blue: "🔵 Blue Animals", yellow: "🟡 Yellow Animals", orange: "🟠 Orange Animals", green: "🟢 Green Animals" }
+    : { fly: "🦋 Animals That Fly", swim: "🐠 Animals That Swim" };
+
+  const correctGroups = sortBy
     ? animals.reduce((acc, animal) => {
         const key = sortBy === "color" ? animal.color : animal.type;
         if (!acc[key]) acc[key] = [];
-        acc[key].push(animal);
+        acc[key].push(animal.name);
         return acc;
-      }, {} as Record<string, typeof animals>)
+      }, {} as Record<string, string[]>)
     : null;
+
+  const addToGroup = (groupKey: string) => {
+    if (!selectedAnimal) return;
+    
+    const newGroups = { ...userGroups };
+    // Remove from other groups if already placed
+    Object.keys(newGroups).forEach(key => {
+      newGroups[key] = newGroups[key].filter(name => name !== selectedAnimal);
+    });
+    
+    // Add to new group
+    if (!newGroups[groupKey]) newGroups[groupKey] = [];
+    newGroups[groupKey].push(selectedAnimal);
+    
+    setUserGroups(newGroups);
+    setSelectedAnimal(null);
+  };
+
+  const checkSorting = () => {
+    setShowFeedback(true);
+  };
+
+  const resetSort = () => {
+    setSortBy(null);
+    setUserGroups({});
+    setShowFeedback(false);
+    setSelectedAnimal(null);
+  };
+
+  const isCorrect = correctGroups && JSON.stringify(Object.keys(userGroups).sort().reduce((acc, key) => {
+    acc[key] = userGroups[key].sort();
+    return acc;
+  }, {} as Record<string, string[]>)) === JSON.stringify(Object.keys(correctGroups).sort().reduce((acc, key) => {
+    acc[key] = correctGroups[key].sort();
+    return acc;
+  }, {} as Record<string, string[]>));
+
+  const placedAnimals = Object.values(userGroups).flat();
+  const allPlaced = placedAnimals.length === animals.length;
 
   return (
     <Card>
@@ -218,49 +292,93 @@ const SortingActivity = () => {
         <CardDescription>Sort animals in different ways (3 minutes)</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="flex justify-center gap-8 flex-wrap">
-          {animals.map((animal, idx) => (
-            <div
-              key={idx}
-              className="text-center p-4 bg-card border-2 border-border rounded-lg hover:border-primary transition-colors"
-            >
-              <div className="text-6xl mb-2">{animal.emoji}</div>
-              <p className="text-sm font-medium">{animal.name}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex justify-center gap-4">
-          <Button onClick={() => setSortBy("color")} variant={sortBy === "color" ? "default" : "outline"}>
+        <div className="flex justify-center gap-4 mb-6">
+          <Button onClick={() => { setSortBy("color"); setUserGroups({}); setShowFeedback(false); setSelectedAnimal(null); }} variant={sortBy === "color" ? "default" : "outline"}>
             Sort by Color
           </Button>
-          <Button onClick={() => setSortBy("type")} variant={sortBy === "type" ? "default" : "outline"}>
+          <Button onClick={() => { setSortBy("type"); setUserGroups({}); setShowFeedback(false); setSelectedAnimal(null); }} variant={sortBy === "type" ? "default" : "outline"}>
             Sort by Movement
           </Button>
-          <Button onClick={() => setSortBy(null)} variant="secondary">
+          <Button onClick={resetSort} variant="secondary">
             Reset
           </Button>
         </div>
 
-        {sortedGroups && (
-          <div className="grid md:grid-cols-2 gap-6 pt-6 border-t border-border">
-            {Object.entries(sortedGroups).map(([key, group]) => (
-              <div key={key} className="bg-accent/20 p-6 rounded-lg">
-                <h3 className="font-bold text-lg mb-4 capitalize">
-                  {key === "orange" && "🟠 Orange Animals"}
-                  {key === "yellow" && "🟡 Yellow Animals"}
-                  {key === "fly" && "🦋 Animals That Fly"}
-                  {key === "swim" && "🐠 Animals That Swim"}
-                </h3>
-                <div className="flex gap-4 justify-center">
-                  {group.map((animal, idx) => (
-                    <div key={idx} className="text-5xl">{animal.emoji}</div>
-                  ))}
-                </div>
-                <p className="text-center mt-3 font-bold text-xl">Count: {group.length}</p>
-              </div>
-            ))}
+        {!sortBy && (
+          <div className="text-center text-muted-foreground">
+            <p>Choose how you want to sort the animals above!</p>
           </div>
+        )}
+
+        {sortBy && (
+          <>
+            <div className="bg-accent/10 p-4 rounded-lg">
+              <p className="text-center font-semibold mb-4">Click an animal, then click a group to sort it:</p>
+              <div className="flex justify-center gap-4 flex-wrap">
+                {animals.map((animal, idx) => {
+                  const isPlaced = placedAnimals.includes(animal.name);
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => !isPlaced && setSelectedAnimal(animal.name)}
+                      disabled={isPlaced && selectedAnimal !== animal.name}
+                      className={`text-center p-4 rounded-lg border-2 transition-all ${
+                        selectedAnimal === animal.name
+                          ? "border-primary bg-primary/20 scale-110"
+                          : isPlaced
+                          ? "border-border/50 opacity-40 cursor-not-allowed"
+                          : "border-border hover:border-primary cursor-pointer"
+                      }`}
+                    >
+                      <div className="text-6xl mb-2">{animal.emoji}</div>
+                      <p className="text-sm font-medium">{animal.name}</p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {Object.entries(groupLabels).map(([key, label]) => (
+                <button
+                  key={key}
+                  onClick={() => selectedAnimal && addToGroup(key)}
+                  disabled={!selectedAnimal}
+                  className={`bg-accent/20 p-6 rounded-lg border-2 transition-all ${
+                    selectedAnimal ? "border-primary hover:bg-accent/30 cursor-pointer" : "border-border"
+                  }`}
+                >
+                  <h3 className="font-bold text-lg mb-4">{label}</h3>
+                  <div className="flex gap-4 justify-center flex-wrap min-h-[80px] items-center">
+                    {userGroups[key]?.map((animalName, idx) => {
+                      const animal = animals.find(a => a.name === animalName);
+                      return animal ? (
+                        <div key={idx} className="text-5xl">{animal.emoji}</div>
+                      ) : null;
+                    })}
+                    {(!userGroups[key] || userGroups[key].length === 0) && (
+                      <p className="text-muted-foreground text-sm">Drop animals here</p>
+                    )}
+                  </div>
+                  <p className="text-center mt-3 font-bold text-xl">Count: {userGroups[key]?.length || 0}</p>
+                </button>
+              ))}
+            </div>
+            
+            <div className="flex justify-center gap-4 pt-4">
+              <Button onClick={checkSorting} size="lg" disabled={showFeedback || !allPlaced}>
+                Check My Answer
+              </Button>
+            </div>
+
+            {showFeedback && (
+              <div className={`p-4 rounded-lg text-center ${isCorrect ? "bg-green-500/20 text-green-700 dark:text-green-300" : "bg-red-500/20 text-red-700 dark:text-red-300"}`}>
+                <p className="font-bold text-lg">
+                  {isCorrect ? "✓ Perfect! You sorted correctly!" : "✗ Not quite right. Try sorting them again!"}
+                </p>
+              </div>
+            )}
+          </>
         )}
       </CardContent>
     </Card>
@@ -270,22 +388,36 @@ const SortingActivity = () => {
 const TowerBuilding = () => {
   const [tower, setTower] = useState([1, 2, 3, 4]);
   const [broken, setBroken] = useState<number[][] | null>(null);
+  const [userGuess, setUserGuess] = useState<{ part1: number | null; part2: number | null }>({ part1: null, part2: null });
+  const [showAnswer, setShowAnswer] = useState(false);
 
   const breakTower = () => {
     const splitPoint = Math.floor(Math.random() * (tower.length - 1)) + 1;
     const part1 = tower.slice(0, splitPoint);
     const part2 = tower.slice(splitPoint);
     setBroken([part1, part2]);
+    setUserGuess({ part1: null, part2: null });
+    setShowAnswer(false);
   };
 
   const fixTower = () => {
     setBroken(null);
+    setUserGuess({ part1: null, part2: null });
+    setShowAnswer(false);
   };
 
   const changeTowerSize = (size: number) => {
     setTower(Array.from({ length: size }, (_, i) => i + 1));
     setBroken(null);
+    setUserGuess({ part1: null, part2: null });
+    setShowAnswer(false);
   };
+
+  const checkGuess = () => {
+    setShowAnswer(true);
+  };
+
+  const isCorrect = broken && userGuess.part1 === broken[0].length && userGuess.part2 === broken[1].length;
 
   const colors = ["#ff6b6b", "#4ecdc4", "#45b7d1", "#f9ca24", "#6c5ce7"];
 
@@ -340,30 +472,86 @@ const TowerBuilding = () => {
                       {cube}
                     </div>
                   ))}
-                  <p className="text-center font-bold text-lg mt-2">
-                    {part.length} cube{part.length !== 1 ? "s" : ""}
-                  </p>
+                  {!showAnswer && (
+                    <p className="text-center font-bold text-lg mt-2 text-muted-foreground">
+                      ? cubes
+                    </p>
+                  )}
+                  {showAnswer && (
+                    <p className="text-center font-bold text-lg mt-2">
+                      {part.length} cube{part.length !== 1 ? "s" : ""}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
           )}
         </div>
 
+        {broken && !showAnswer && (
+          <div className="space-y-4">
+            <p className="text-center font-semibold text-lg">How many cubes are in each tower?</p>
+            <div className="flex justify-center gap-8">
+              <div className="text-center">
+                <p className="text-sm mb-2 text-muted-foreground">Left Tower</p>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <Button
+                      key={num}
+                      onClick={() => setUserGuess({ ...userGuess, part1: num })}
+                      variant={userGuess.part1 === num ? "default" : "outline"}
+                      className="w-12 h-12"
+                    >
+                      {num}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              <div className="text-center">
+                <p className="text-sm mb-2 text-muted-foreground">Right Tower</p>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <Button
+                      key={num}
+                      onClick={() => setUserGuess({ ...userGuess, part2: num })}
+                      variant={userGuess.part2 === num ? "default" : "outline"}
+                      className="w-12 h-12"
+                    >
+                      {num}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex justify-center gap-4">
           {!broken ? (
             <Button onClick={breakTower} size="lg">
               Break the Tower
             </Button>
-          ) : (
+          ) : showAnswer ? (
             <Button onClick={fixTower} size="lg" variant="secondary">
-              Put It Back Together
+              Try Another Tower
+            </Button>
+          ) : (
+            <Button 
+              onClick={checkGuess} 
+              size="lg"
+              disabled={userGuess.part1 === null || userGuess.part2 === null}
+            >
+              Check My Answer
             </Button>
           )}
         </div>
 
-        {broken && (
-          <div className="bg-primary/10 p-4 rounded-lg text-center">
-            <p className="font-bold text-lg">
+        {broken && showAnswer && (
+          <div className={`p-4 rounded-lg text-center ${isCorrect ? "bg-green-500/20 text-green-700 dark:text-green-300" : "bg-red-500/20 text-red-700 dark:text-red-300"}`}>
+            <p className="font-bold text-lg mb-2">
+              {isCorrect ? "✓ Excellent! You found the partners!" : "✗ Not quite! Try again."}
+            </p>
+            <p className="text-lg">
               I found {broken[0].length} and {broken[1].length} inside {tower.length}!
             </p>
           </div>
@@ -376,39 +564,92 @@ const TowerBuilding = () => {
 const PartnersActivity = () => {
   const [currentCard, setCurrentCard] = useState(0);
   const [selectedPartners, setSelectedPartners] = useState<string | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const cards = [
     {
       title: "Bears",
       total: 4,
-      emoji: "🧸",
+      items: [
+        { emoji: "🧸", size: "big", hasBow: true, color: "brown" },
+        { emoji: "🧸", size: "big", hasBow: true, color: "brown" },
+        { emoji: "🧸", size: "small", hasBow: false, color: "white" },
+        { emoji: "🧸", size: "small", hasBow: false, color: "brown" },
+      ],
       options: [
-        { description: "Bears with bowties vs no bowties", partner1: 2, partner2: 2, visual: "👔🎀" },
-        { description: "Big bears vs small bears", partner1: 2, partner2: 2, visual: "📏📐" },
-        { description: "Brown bears vs white bears", partner1: 3, partner2: 1, visual: "🟤⚪" },
+        { description: "Bears with bowties vs no bowties", partner1: 2, partner2: 2 },
+        { description: "Big bears vs small bears", partner1: 2, partner2: 2 },
+        { description: "Brown bears vs white bears", partner1: 3, partner2: 1 },
       ]
     },
     {
       title: "Fish",
       total: 5,
-      emoji: "🐠",
+      items: [
+        { emoji: "🐠", size: "big", color: "orange" },
+        { emoji: "🐠", size: "big", color: "orange" },
+        { emoji: "🐠", size: "small", color: "blue" },
+        { emoji: "🐠", size: "small", color: "blue" },
+        { emoji: "🐠", size: "small", color: "orange" },
+      ],
       options: [
-        { description: "Big fish vs small fish", partner1: 2, partner2: 3, visual: "🐋🐟" },
-        { description: "Orange fish vs blue fish", partner1: 3, partner2: 2, visual: "🟠🔵" },
+        { description: "Big fish vs small fish", partner1: 2, partner2: 3 },
+        { description: "Orange fish vs blue fish", partner1: 3, partner2: 2 },
       ]
     },
     {
       title: "Cats",
       total: 5,
-      emoji: "🐱",
+      items: [
+        { emoji: "🐱", position: "sitting", color: "orange" },
+        { emoji: "🐱", position: "sitting", color: "orange" },
+        { emoji: "🐱", position: "sitting", color: "gray" },
+        { emoji: "🐱", position: "walking", color: "gray" },
+        { emoji: "🐱", position: "walking", color: "gray" },
+      ],
       options: [
-        { description: "Sitting cats vs walking cats", partner1: 3, partner2: 2, visual: "🪑🚶" },
-        { description: "Orange cats vs gray cats", partner1: 2, partner2: 3, visual: "🟠⚫" },
+        { description: "Sitting cats vs walking cats", partner1: 3, partner2: 2 },
+        { description: "Orange cats vs gray cats", partner1: 2, partner2: 3 },
       ]
     },
   ];
 
   const currentCardData = cards[currentCard];
+
+  const renderBear = (bear: any, index: number) => {
+    const sizeClass = bear.size === "big" ? "text-7xl" : "text-5xl";
+    const filter = bear.color === "white" ? "grayscale(100%) brightness(2)" : "";
+    return (
+      <div key={index} className="relative inline-block">
+        <div className={sizeClass} style={{ filter }}>{bear.emoji}</div>
+        {bear.hasBow && <div className="absolute -top-2 -right-1 text-2xl">🎀</div>}
+      </div>
+    );
+  };
+
+  const renderFish = (fish: any, index: number) => {
+    const sizeClass = fish.size === "big" ? "text-7xl" : "text-5xl";
+    const filter = fish.color === "blue" ? "hue-rotate(180deg)" : "";
+    return <div key={index} className={sizeClass} style={{ filter }}>{fish.emoji}</div>;
+  };
+
+  const renderCat = (cat: any, index: number) => {
+    const filter = cat.color === "gray" ? "grayscale(100%)" : "";
+    const position = cat.position === "sitting" ? "🪑" : "🚶";
+    return (
+      <div key={index} className="relative inline-block">
+        <div className="text-6xl" style={{ filter }}>{cat.emoji}</div>
+        <div className="absolute -bottom-1 right-0 text-xl">{position}</div>
+      </div>
+    );
+  };
+
+  const renderItem = (item: any, index: number) => {
+    if (currentCardData.title === "Bears") return renderBear(item, index);
+    if (currentCardData.title === "Fish") return renderFish(item, index);
+    if (currentCardData.title === "Cats") return renderCat(item, index);
+    return null;
+  };
 
   return (
     <Card>
@@ -420,46 +661,61 @@ const PartnersActivity = () => {
         <div className="text-center">
           <p className="text-sm text-muted-foreground mb-2">Card {currentCard + 1} of {cards.length}</p>
           <h3 className="text-3xl font-bold mb-4">I have a group of {currentCardData.title}</h3>
-          <div className="flex justify-center gap-3 mb-6">
-            {Array.from({ length: currentCardData.total }).map((_, idx) => (
-              <div key={idx} className="text-6xl">
-                {currentCardData.emoji}
-              </div>
-            ))}
+          <div className="flex justify-center gap-3 mb-6 flex-wrap">
+            {currentCardData.items.map((item, idx) => renderItem(item, idx))}
           </div>
           <p className="text-2xl font-bold text-primary">Total: {currentCardData.total}</p>
         </div>
 
         <div className="space-y-4">
-          <h4 className="font-semibold text-center">What partners can you find?</h4>
+          <h4 className="font-semibold text-center">What partners can you find? Click to select:</h4>
           {currentCardData.options.map((option, idx) => (
             <button
               key={idx}
-              onClick={() => setSelectedPartners(`option-${idx}`)}
+              onClick={() => {
+                setSelectedPartners(`option-${idx}`);
+                setShowFeedback(false);
+              }}
+              disabled={showFeedback}
               className={`w-full p-6 rounded-lg border-2 transition-all ${
                 selectedPartners === `option-${idx}`
                   ? "border-primary bg-primary/10"
                   : "border-border hover:border-primary/50"
-              }`}
+              } ${showFeedback ? "opacity-60 cursor-not-allowed" : ""}`}
             >
               <div className="text-center space-y-3">
                 <p className="text-lg font-medium">{option.description}</p>
-                <p className="text-4xl">{option.visual}</p>
-                {selectedPartners === `option-${idx}` && (
-                  <p className="text-xl font-bold text-primary">
-                    I found {option.partner1} and {option.partner2} inside {currentCardData.total}!
-                  </p>
-                )}
+                <p className="text-xl text-muted-foreground">
+                  {option.partner1} and {option.partner2}
+                </p>
               </div>
             </button>
           ))}
         </div>
+
+        {selectedPartners && !showFeedback && (
+          <div className="flex justify-center">
+            <Button onClick={() => setShowFeedback(true)} size="lg">
+              Check My Answer
+            </Button>
+          </div>
+        )}
+
+        {showFeedback && selectedPartners && (
+          <div className="bg-green-500/20 text-green-700 dark:text-green-300 p-4 rounded-lg text-center">
+            <p className="font-bold text-lg mb-2">✓ Great job finding partners!</p>
+            <p className="text-xl font-bold">
+              I found {currentCardData.options[parseInt(selectedPartners.split("-")[1])].partner1} and {currentCardData.options[parseInt(selectedPartners.split("-")[1])].partner2} inside {currentCardData.total}!
+            </p>
+          </div>
+        )}
 
         <div className="flex justify-between pt-4 border-t border-border">
           <Button
             onClick={() => {
               setCurrentCard(Math.max(0, currentCard - 1));
               setSelectedPartners(null);
+              setShowFeedback(false);
             }}
             disabled={currentCard === 0}
             variant="outline"
@@ -470,6 +726,7 @@ const PartnersActivity = () => {
             onClick={() => {
               setCurrentCard(Math.min(cards.length - 1, currentCard + 1));
               setSelectedPartners(null);
+              setShowFeedback(false);
             }}
             disabled={currentCard === cards.length - 1}
           >
