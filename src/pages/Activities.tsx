@@ -702,6 +702,25 @@ const topicELessons = [
     duration: "15-20 min", 
     path: "/activity/counting-19",
     unlocked: true
+  },
+      {
+    id: 20,
+    title: "Circle of Friends",
+    topic: "Topic E: How Many Questions with 4 or 5 Objects",
+    standards: ["PK.CC.1", "PK.CC.3ab", "PK.CC.4"],
+    objective: "Arrange and count 5 objects in a circular configuration",
+    description: "Count friends sitting in a circle without losing your place!",
+    icon: "⭕",
+    color: "red",
+    difficulty: "intermediate",
+    duration: "15-20 min",
+    learningGoals: [
+      "Count objects in circular arrangements",
+      "Use strategies to mark starting points",
+      "Develop accurate counting in tricky configurations"
+    ],
+      path: "/activity/counting-20",
+    unlocked: true
   }
 ];
 export default Activities;
